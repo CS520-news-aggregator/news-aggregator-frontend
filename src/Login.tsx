@@ -12,6 +12,8 @@ function Login(loginProps: loginInfo) {
   const [password, setPassword] = useState("");
   const [toggleRegister, setToggleRegister] = useState(false);
 
+
+
   return (
     <section
       id="full-body"

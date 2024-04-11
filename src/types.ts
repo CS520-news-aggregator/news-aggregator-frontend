@@ -12,6 +12,11 @@ type baseInfo = {
   setLoginState: (loginState: boolean) => void;
 };
 
+type PreferencesInfo = {
+  authToken: string;
+  setFirstTimeUser: (firstTimeUser: boolean) => void;
+}
+
 type loginInfo = {
   setFirstTimeUser: (firstTimeUser: boolean) => void;
 } & baseInfo;
@@ -24,4 +29,4 @@ type FormInfo = {
 type signInFormInfo = baseInfo & FormInfo;
 type registerFormInfo = loginInfo & FormInfo;
 
-export type { loginInfo, registerFormInfo, signInFormInfo };
+export type { loginInfo, registerFormInfo, signInFormInfo, PreferencesInfo };

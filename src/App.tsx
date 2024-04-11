@@ -23,7 +23,10 @@ function App() {
     if (firstTimeUser) {
       return (
         <>
-        <Preferences />
+          <Preferences
+            authToken={authToken}
+            setFirstTimeUser={setFirstTimeUser}
+          />
         </>
       );
     } else {
@@ -39,9 +42,9 @@ function App() {
   // TESTING Preferences
   // return (
   //   <>
-  //   <Preferences />
+  //     <Preferences authToken={authToken} setFirstTimeUser={setFirstTimeUser} />
   //   </>
-  // )
+  // );
 }
 
 export default App;
