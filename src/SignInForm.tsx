@@ -50,7 +50,7 @@ function SignInForm(signInProps: signInFormInfo) {
               name="password"
               id="password"
               placeholder="Password"
-              value={email}
+              value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
