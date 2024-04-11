@@ -35,6 +35,13 @@ function App() {
       );
     }
   }
+
+  // TESTING Preferences
+  // return (
+  //   <>
+  //   <Preferences />
+  //   </>
+  // )
 }
 
 export default App;
