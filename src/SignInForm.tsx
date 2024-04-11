@@ -1,4 +1,5 @@
 import { signInFormInfo } from "./types";
+import { BACKEND_URL } from "./utils/constants.ts";
 
 function SignInForm(signInProps: signInFormInfo) {
   const toggleRegister = signInProps.toggleRegister;
@@ -14,7 +15,7 @@ function SignInForm(signInProps: signInFormInfo) {
     event.preventDefault();
 
     // send fetch POST to backend to verify user and get back authentication token
-    fetch("/user/login", {
+    fetch(`${BACKEND_URL}/user/login`, {
       method: "POST",
       body: JSON.stringify({ email_address: email, password: password }),
       headers: { "Content-Type": "application/json" },

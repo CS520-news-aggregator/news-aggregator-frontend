@@ -1,4 +1,5 @@
 import { registerFormInfo } from "./types";
+import { BACKEND_URL } from "./utils/constants.ts";
 
 function RegisterForm(registerProps: registerFormInfo) {
   const toggleRegister = registerProps.toggleRegister;
@@ -13,7 +14,7 @@ function RegisterForm(registerProps: registerFormInfo) {
   const handleRegister = (event: React.SyntheticEvent) => {
     event.preventDefault();
     // send fetch POST to backend to register user
-    fetch("/user/register", {
+    fetch(`${BACKEND_URL}/user/register`, {
       method: "POST",
       body: JSON.stringify({ email_address: email, password: password }),
       headers: { "Content-Type": "application/json" },
