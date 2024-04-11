@@ -6,6 +6,7 @@ import RegisterForm from "./RegisterForm.tsx";
 function Login(loginProps: loginInfo) {
   const setAuthToken = loginProps.setAuthToken;
   const setLoginState = loginProps.setLoginState;
+  const setFirstTimeUser = loginProps.setFirstTimeUser;
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -62,6 +63,7 @@ function Login(loginProps: loginInfo) {
             setPassword={setPassword}
             toggleRegister={toggleRegister}
             setToggleRegister={setToggleRegister}
+            setFirstTimeUser={setFirstTimeUser}
           />
         </div>
       </div>

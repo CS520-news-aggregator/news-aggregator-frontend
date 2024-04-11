@@ -1,23 +1,27 @@
 import { SetStateAction } from "react";
 
 type userForm = {
-  email: string
-  password:string
-  setEmail: React.Dispatch<SetStateAction<string>>
-  setPassword: React.Dispatch<SetStateAction<string>>
-}
+  email: string;
+  password: string;
+  setEmail: React.Dispatch<SetStateAction<string>>;
+  setPassword: React.Dispatch<SetStateAction<string>>;
+};
 
-type loginInfo = {
+type baseInfo = {
   setAuthToken: (token: string) => void;
   setLoginState: (loginState: boolean) => void;
 };
 
+type loginInfo = {
+  setFirstTimeUser: (firstTimeUser: boolean) => void;
+} & baseInfo;
+
 type FormInfo = {
-  toggleRegister: boolean 
-  setToggleRegister: React.Dispatch<SetStateAction<boolean>>
-} & userForm
+  toggleRegister: boolean;
+  setToggleRegister: React.Dispatch<SetStateAction<boolean>>;
+} & userForm;
 
-type signInFormInfo = loginInfo& FormInfo;
-type registerFormInfo = loginInfo &FormInfo;
+type signInFormInfo = baseInfo & FormInfo;
+type registerFormInfo = loginInfo & FormInfo;
 
-export type {loginInfo, registerFormInfo, signInFormInfo}
+export type { loginInfo, registerFormInfo, signInFormInfo };

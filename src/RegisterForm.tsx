@@ -10,6 +10,7 @@ function RegisterForm(registerProps: registerFormInfo) {
   const setPassword = registerProps.setPassword;
   const setAuthToken = registerProps.setAuthToken;
   const setLoginState = registerProps.setLoginState;
+  const setFirstTimeUser = registerProps.setFirstTimeUser;
 
   const handleRegister = (event: React.SyntheticEvent) => {
     event.preventDefault();
@@ -23,6 +24,7 @@ function RegisterForm(registerProps: registerFormInfo) {
       .then((json) => {
         setAuthToken(json.token);
         setLoginState(true);
+        setFirstTimeUser(true);
       })
       .catch(() => alert("Could not register user"));
   };
