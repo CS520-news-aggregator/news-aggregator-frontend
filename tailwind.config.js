@@ -8,6 +8,12 @@ export default {
     extend: {
       fontFamily: {
         "anton": ["Anton", 'sans-serif']
+      },
+      gridTemplateRows: {
+        'home': '1fr 10fr',
+      },
+      gridTemplateColumns: {
+        'home-content': '1fr 4fr 1fr'
       }
     },
   },

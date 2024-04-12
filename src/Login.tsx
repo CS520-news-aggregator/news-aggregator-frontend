@@ -20,7 +20,7 @@ function Login(loginProps: loginInfo) {
       className="min-h-screen flex items-stretch text-white "
     >
       <div
-        className="lg:flex w-1/2 hidden bg-gray-500 bg-no-repeat bg-cover relative items-center"
+        className="lg:flex w-1/2 hidden bg-no-repeat bg-cover relative items-center"
         style={{
           backgroundColor: "#FFFFFF",
           backgroundImage:
