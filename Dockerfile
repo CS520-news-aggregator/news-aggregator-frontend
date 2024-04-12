@@ -2,10 +2,10 @@ FROM node:alpine
 
 RUN npm install -g pm2
 
-WORKDIR /usr/app
+WORKDIR /code
 
 COPY ./package.json ./
-RUN npm install
+RUN npm install .
 
 # Make sure you delete node_modules on your host, before building the image
 COPY ./ ./
