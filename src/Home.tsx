@@ -8,7 +8,7 @@ import PostView from "./PostView";
 function Home(HomeProps: HomeInfo) {
   const authToken = HomeProps.authToken;
   const [posts, setPosts] = useState<PostInfo[]>([]);
-  const [view, setView] = useState<HomeView>(HomeView.Content);
+  const [view, setView] = useState<HomeView>(HomeView.Post);
 
   useEffect(() => {
     // fetch home data inside here
@@ -16,23 +16,27 @@ function Home(HomeProps: HomeInfo) {
       method: "GET",
       headers: {
         Authorization: `Bearer ${authToken}`,
-      }
+      },
     })
       .then((res) => res.json())
       .then((json) => {
-        let postIds = json.list_recommendations;
-        Promise.all(postIds.map((postId: string) => getPost(postId))).then((posts) => {
-          console.log(posts);
-          setPosts(posts);
-        });
-      }
-      )
-    }, [view]);
+        const postIds = json.list_recommendations;
+        Promise.all(postIds.map((postId: string) => getPost(postId))).then(
+          (posts) => {
+            console.log(posts);
+            setPosts(posts);
+          }
+        );
+      });
+  }, []);
 
   async function getPost(postId: string) {
-    return fetch(`${BACKEND_URL}/aggregator/get-aggregation?post_id=${postId}`, {
-      method: "GET"
-    })
+    return fetch(
+      `${BACKEND_URL}/aggregator/get-aggregation?post_id=${postId}`,
+      {
+        method: "GET",
+      }
+    )
       .then((res) => res.json())
       .then((json) => {
         json.post.id = postId;
