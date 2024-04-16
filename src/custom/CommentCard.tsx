@@ -15,6 +15,7 @@ function CommentCard(CommentCardProp: { comment: Comment; authToken: string }) {
 
   const [liked, setLiked] = useState(false);
   const [disliked, setDisliked] = useState(false);
+  const [gotData, setGotData] = useState(false);
 
   useEffect(() => {
     fetch(`${BACKEND_URL}/user/get-user?user_id=${comment.author_id}`, {
@@ -24,6 +25,9 @@ function CommentCard(CommentCardProp: { comment: Comment; authToken: string }) {
       .then((json) => {
         author.current = json.username;
         authorAvatar.current = json.avatar;
+        if (!gotData) {
+          setGotData(true);
+        }
       });
   });
 
