@@ -19,12 +19,7 @@ export function CustomCardFooter(CardFooterProp: {
   const setDisliked = CardFooterProp.setDisliked;
   const isPost = CardFooterProp.isPost;
 
-  const handeLike = (
-    id: string,
-    authToken: string,
-    liked: boolean,
-    isPost: boolean
-  ) => {
+  const handeLike = (id: string, authToken: string, isPost: boolean) => {
     const route = `upvote-${isPost ? "post?post_id" : "comment?comment_id"}`;
     if (liked) {
       setLiked(false);
@@ -41,12 +36,7 @@ export function CustomCardFooter(CardFooterProp: {
       });
     }
   };
-  const handleDislike = (
-    id: string,
-    authToken: string,
-    disliked: boolean,
-    isPost: boolean
-  ) => {
+  const handleDislike = (id: string, authToken: string, isPost: boolean) => {
     const route = `downvote-${isPost ? "post?post_id" : "comment?comment_id"}`;
     if (disliked) {
       setDisliked(false);
@@ -75,7 +65,7 @@ export function CustomCardFooter(CardFooterProp: {
           stroke="white"
           className="w-6 h-6 hover:cursor-pointer"
           color={liked ? "green" : ""}
-          onClick={() => handeLike(id, authToken, liked, isPost)}
+          onClick={() => handeLike(id, authToken, isPost)}
         >
           <path
             stroke-linecap="round"
@@ -91,7 +81,7 @@ export function CustomCardFooter(CardFooterProp: {
           stroke="white"
           className="w-6 h-6 hover:cursor-pointer"
           color={disliked ? "red" : ""}
-          onClick={() => handleDislike(id, authToken, disliked, isPost)}
+          onClick={() => handleDislike(id, authToken, isPost)}
         >
           <path
             stroke-linecap="round"
