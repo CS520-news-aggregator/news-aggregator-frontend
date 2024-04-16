@@ -27,7 +27,7 @@ function Home(HomeProps: HomeInfo) {
         });
       }
       )
-    }, []);
+    }, [view]);
 
   async function getPost(postId: string) {
     return fetch(`${BACKEND_URL}/aggregator/get-aggregation?post_id=${postId}`, {
