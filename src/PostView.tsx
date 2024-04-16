@@ -26,7 +26,7 @@ function PostView(PostViewProp: { post: PostInfo; authToken: string }) {
       method: "GET",
     })
       .then((res) => res.json())
-      .then((json) => setComments((c) => [...c, json.comments]));
+      .then((json) => setComments((c) => [...c, ...json.comments]));
   }, []);
 
   return (
@@ -48,13 +48,11 @@ function PostView(PostViewProp: { post: PostInfo; authToken: string }) {
         setDisliked={setDisliked}
         isPost={true}
       />
-      {comments.length === 0 ? (
-        <></>
-      ) : (
-        comments.map((comment) => (
+      {
+        comments.map((comment) => 
           <CommentCard comment={comment} authToken={authToken} />
-        ))
-      )}
+        )
+      }
     </Card>
   );
 }

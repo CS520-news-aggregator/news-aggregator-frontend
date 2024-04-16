@@ -10,34 +10,36 @@ function App() {
   const [authToken, setAuthToken] = useState("");
   const [firstTimeUser, setFirstTimeUser] = useState(false);
 
-  // if (loginState == false) {
-  //   return (
-  //     <>
-  //       <Login
-  //         setLoginState={setLoginState}
-  //         setAuthToken={setAuthToken}
-  //         setFirstTimeUser={setFirstTimeUser}
-  //       />
-  //     </>
-  //   );
-  // } else {
-  //   if (firstTimeUser) {
-  //     return (
-  //       <>
-  //         <Preferences
-  //           authToken={authToken}
-  //           setFirstTimeUser={setFirstTimeUser}
-  //         />
-  //       </>
-  //     );
-  //   } else {
-  //     return (
-  //       <>
-  //       <Home />
-  //       </>
-  //     );
-  //   }
-  // }
+  // TODO - Persist login state through refresh
+  if (loginState == false) {
+    return (
+      <>
+        <Login
+          setLoginState={setLoginState}
+          setAuthToken={setAuthToken}
+          setFirstTimeUser={setFirstTimeUser}
+        />
+      </>
+    );
+  } else {
+    // TODO - Get first time user status from backend
+    if (firstTimeUser) {
+      return (
+        <>
+          <Preferences
+            authToken={authToken}
+            setFirstTimeUser={setFirstTimeUser}
+          />
+        </>
+      );
+    } else {
+      return (
+        <>
+        <Home authToken={authToken} />
+        </>
+      );
+    }
+  }
 
   // TESTING Preferences
   // return (
@@ -47,11 +49,11 @@ function App() {
   // );
 
   // TESTING Home
-  return (
-    <>
-    <Home authToken={authToken}/>
-    </>
-  );
+  // return (
+  //   <>
+  //   <Home authToken={authToken}/>
+  //   </>
+  // );
 }
 
 export default App;

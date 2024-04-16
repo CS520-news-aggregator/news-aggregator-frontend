@@ -23,7 +23,6 @@ function Home(HomeProps: HomeInfo) {
         const postIds = json.list_recommendations;
         Promise.all(postIds.map((postId: string) => getPost(postId))).then(
           (posts) => {
-            console.log(posts);
             setPosts(posts);
           }
         );
