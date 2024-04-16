@@ -76,6 +76,8 @@ function Home(HomeProps: HomeInfo) {
           <div className=""></div>
           {view == HomeView.Content ? (
             contentView
+          ) : posts.length === 0 ? (
+            <></>
           ) : (
             <PostView post={posts[0]} authToken={authToken} />
           )}
