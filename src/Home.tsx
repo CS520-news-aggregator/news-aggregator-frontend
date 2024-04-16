@@ -38,10 +38,7 @@ function Home(HomeProps: HomeInfo) {
       }
     )
       .then((res) => res.json())
-      .then((json) => {
-        json.post.id = postId;
-        return json.post;
-      });
+      .then((json) => json.post);
   }
 
   const handleLogoClick = (event: React.SyntheticEvent) => {

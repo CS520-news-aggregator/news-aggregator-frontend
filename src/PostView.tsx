@@ -26,13 +26,7 @@ function PostView(PostViewProp: { post: PostInfo; authToken: string }) {
       method: "GET",
     })
       .then((res) => res.json())
-      .then((json) => {
-        let currentComments = json.comments.map(
-          (comment) => {
-            comment.id = comment._id; return comment;
-        });
-        setComments((c) => [...c, ...currentComments])
-    });
+      .then((json) => setComments((c) => [...c, ...json.comments]));
     }, []);
 
   return (
