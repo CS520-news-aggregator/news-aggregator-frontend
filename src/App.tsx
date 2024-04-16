@@ -49,7 +49,7 @@ function App() {
   // TESTING Home
   return (
     <>
-    <Home />
+    <Home authToken={authToken}/>
     </>
   );
 }

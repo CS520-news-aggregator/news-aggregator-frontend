@@ -2,11 +2,13 @@ import { TOPICS } from "./utils/constants";
 import { useState } from "react";
 import { BACKEND_URL } from "./utils/constants";
 import { PreferencesInfo } from "./types";
+import { AlertDestructive } from "./custom/Alert";
 
 function Preferences(PreferencesProps: PreferencesInfo) {
   const authToken = PreferencesProps.authToken;
   const setFirstTimeUser = PreferencesProps.setFirstTimeUser;
   const [currentTopics, setCurrentTopics] = useState<string[]>([]);
+  const [showError, setShowError] = useState(false);
 
   /*
 background-color: #8BC6EC;
@@ -28,7 +30,7 @@ background-image: linear-gradient(135deg, #8BC6EC 0%, #9599E2 100%);
   const handleSubmit = (event: React.SyntheticEvent) => {
     event.preventDefault();
     if (currentTopics.length < 5) {
-      alert("Not enough topics selected");
+      setShowError(true);
     } else {
       fetch(`${BACKEND_URL}/user/add-preferences`, {
         method: "POST",
@@ -45,42 +47,49 @@ background-image: linear-gradient(135deg, #8BC6EC 0%, #9599E2 100%);
 
   return (
     <>
-    {/* bg-gradient-to-b from-indigo-500 via-indigo-600 to-indigo-700 */}
-      <div className=" bg-gray-500 w-screen h-screen flex items-center"
-      style={{
-          backgroundColor: "#FFFFFF",
-          backgroundImage:
-            "linear-gradient(180deg, #FFFFFF 0%, #6284FF 50%, #FF0000 100%)",
-        }}
-      >
-        <div className="overflow-y-scroll overflow-x-hidden top-5 h-5/6 w-4/5 relative mx-auto bottom-10 bg-slate-700 text-white rounded-md">
+      <div className=" w-screen h-screen flex items-center bg-gradient-to-b from-[#161616] to-slate-900">
+        <div className="overflow-y-scroll overflow-x-hidden top-5 h-5/6 w-4/5 relative mx-auto bottom-10 bg-[#161616] border-2 border-slate-200 text-white rounded-md">
           <div className="font-anton m-10">
-            <h1 className="font-anton text-5xl mb-5">Hello!</h1>
+            <div className="flex justify-between">
+              <h1 className="font-anton text-5xl mb-5">Hello!</h1>
+              <div className="font-sans">
+                {showError ? (
+                  <AlertDestructive
+                    error="Invalid Selection"
+                    message="Please pick at least 5 topics"
+                  />
+                ) : (
+                  <div className="p-[41px]"></div>
+                )}
+              </div>
+            </div>
             <h1 className="font-anton text-3xl">
               Select at least 5 topics you're interested in.
             </h1>
           </div>
-          <div className=" grid grid-cols-5 m-5">
+          <div className=" flex flex-wrap m-4 ">
             {TOPICS.map((topic) => (
               <div
                 id={topic}
                 className={`${
                   !currentTopics.includes(topic)
-                    ? "bg-cyan-600 hover:bg-cyan-700"
-                    : "bg-red-700 hover:bg-red-800"
-                } flex flex-col w-auto border-black border-1 h-14 text-center justify-center align-middle rounded-lg m-5 font-sans`}
+                    ? "bg-[#161616] border-[1px] border-white hover:bg-[#222222]"
+                    : "bg-slate-300 text-black border-[1px] hover:bg-slate-400"
+                } flex flex-col w-fit p-2 h-14 text-center justify-center align-middle rounded-full m-3 font-sans hover:cursor-pointer`}
                 onClick={(e) => handleTopicSelection(e, topic)}
               >
                 <div className="m-2">{topic} </div>
               </div>
             ))}
           </div>
-          <button
-            className="m10 bg-indigo-500 hover:bg-indigo-600 absolute bottom-0 right-0 w-24 m-5 p-2 text-xl rounded-lg font-anton md:tracking-wider"
-            onClick={handleSubmit}
-          >
-            Submit
-          </button>
+          <div className="flex absolute bottom-0 left-[calc(50%-3.875rem)]">
+            <button
+              className=" bg-white hover:bg-slate-300 text-black w-24 m-5 p-2 text-xl rounded-lg font-anton md:tracking-wide"
+              onClick={handleSubmit}
+            >
+              Submit
+            </button>
+          </div>
         </div>
       </div>
     </>

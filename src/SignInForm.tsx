@@ -1,7 +1,7 @@
-import { signInFormInfo } from "./types";
+import { SignInFormInfo } from "./types";
 import { BACKEND_URL } from "./utils/constants.ts";
 
-function SignInForm(signInProps: signInFormInfo) {
+function SignInForm(signInProps: SignInFormInfo) {
   const toggleRegister = signInProps.toggleRegister;
   const setToggleRegister = signInProps.setToggleRegister;
   const email = signInProps.email;
@@ -10,6 +10,7 @@ function SignInForm(signInProps: signInFormInfo) {
   const setPassword = signInProps.setPassword;
   const setAuthToken = signInProps.setAuthToken;
   const setLoginState = signInProps.setLoginState;
+  const setSignInFail = signInProps.setSignInFail;
 
   function handleSignIn(event: React.SyntheticEvent) {
     event.preventDefault();
@@ -25,7 +26,7 @@ function SignInForm(signInProps: signInFormInfo) {
         setAuthToken(json.token);
         setLoginState(true);
       })
-      .catch(() => alert("Could not sign in"));
+      .catch(() => setSignInFail(true));
   }
 
   if (!toggleRegister) {
@@ -57,7 +58,10 @@ function SignInForm(signInProps: signInFormInfo) {
           <a
             href="#"
             className="hover:underline text-gray-400 hover:text-gray-100"
-            onClick={() => setToggleRegister(true)}
+            onClick={() => {
+              setSignInFail(false);
+              setToggleRegister(true);
+            }}
           >
             Don't have an account? Register instead
           </a>

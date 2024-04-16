@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { loginInfo } from "./types.ts";
+import { LoginInfo } from "./types.ts";
 import SignInForm from "./SignInForm.tsx";
 import RegisterForm from "./RegisterForm.tsx";
+import { AlertDestructive } from "./custom/Alert.tsx";
 
-function Login(loginProps: loginInfo) {
+function Login(loginProps: LoginInfo) {
   const setAuthToken = loginProps.setAuthToken;
   const setLoginState = loginProps.setLoginState;
   const setFirstTimeUser = loginProps.setFirstTimeUser;
@@ -11,8 +12,8 @@ function Login(loginProps: loginInfo) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [toggleRegister, setToggleRegister] = useState(false);
-
-
+  const [signInFail, setSignInFail] = useState(false);
+  const [registerFail, setRegisterFail] = useState(false);
 
   return (
     <section
@@ -55,6 +56,7 @@ function Login(loginProps: loginInfo) {
             setPassword={setPassword}
             toggleRegister={toggleRegister}
             setToggleRegister={setToggleRegister}
+            setSignInFail={setSignInFail}
           />
           <RegisterForm
             setAuthToken={setAuthToken}
@@ -66,7 +68,24 @@ function Login(loginProps: loginInfo) {
             toggleRegister={toggleRegister}
             setToggleRegister={setToggleRegister}
             setFirstTimeUser={setFirstTimeUser}
+            setRegisterFail={setRegisterFail}
           />
+          {!toggleRegister && signInFail ? (
+            <AlertDestructive
+              error="Sign in Failed"
+              message="No such user exists"
+            />
+          ) : (
+            <></>
+          )}
+          {toggleRegister && registerFail ? (
+            <AlertDestructive
+              error="Registration Failed"
+              message="Please enter valid email/password and try again"
+            />
+          ) : (
+            <></>
+          )}
         </div>
       </div>
     </section>

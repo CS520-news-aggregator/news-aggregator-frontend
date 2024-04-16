@@ -1,13 +1,13 @@
 import { SetStateAction } from "react";
 
-type userForm = {
+type UserForm = {
   email: string;
   password: string;
   setEmail: React.Dispatch<SetStateAction<string>>;
   setPassword: React.Dispatch<SetStateAction<string>>;
 };
 
-type baseInfo = {
+type BaseInfo = {
   setAuthToken: (token: string) => void;
   setLoginState: (loginState: boolean) => void;
 };
@@ -15,18 +15,69 @@ type baseInfo = {
 type PreferencesInfo = {
   authToken: string;
   setFirstTimeUser: (firstTimeUser: boolean) => void;
-}
+};
 
-type loginInfo = {
+type LoginInfo = {
   setFirstTimeUser: (firstTimeUser: boolean) => void;
-} & baseInfo;
+} & BaseInfo;
 
 type FormInfo = {
   toggleRegister: boolean;
   setToggleRegister: React.Dispatch<SetStateAction<boolean>>;
-} & userForm;
+} & UserForm;
 
-type signInFormInfo = baseInfo & FormInfo;
-type registerFormInfo = loginInfo & FormInfo;
+type LoginError = {
+  setSignInFail: (state: boolean) => void;
+  setRegisterFail: (state: boolean) => void;
+};
 
-export type { loginInfo, registerFormInfo, signInFormInfo, PreferencesInfo };
+type SignInFormInfo = {
+  setSignInFail: LoginError["setSignInFail"];
+} & BaseInfo &
+  FormInfo;
+type RegisterFormInfo = {
+  setRegisterFail: LoginError["setRegisterFail"];
+} & LoginInfo &
+  FormInfo;
+
+type PostInfo = {
+  id: string;
+  title: string;
+  link: string;
+  date: string;
+  media: string;
+  author: string;
+  upvotes: number;
+  downvotes: number;
+};
+
+type HomeInfo = {
+  authToken: string;
+};
+
+enum HomeView {
+  Content,
+  Post,
+}
+
+type MessageProp = {
+  error: string;
+  message: string;
+};
+
+type HomeProfileInfo = {
+  side: "top" | "bottom" | "left" | "right" | null | undefined;
+}
+
+export type {
+  LoginInfo,
+  RegisterFormInfo,
+  SignInFormInfo,
+  PreferencesInfo,
+  PostInfo,
+  HomeInfo,
+  MessageProp,
+  HomeProfileInfo
+};
+
+export { HomeView };
