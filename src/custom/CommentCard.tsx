@@ -1,4 +1,4 @@
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 import { Comment } from "@/types";
 import { BACKEND_URL } from "@/utils/constants";
@@ -6,15 +6,16 @@ import { useEffect, useRef, useState } from "react";
 import { UserAvatar } from "./UserAvatar";
 import { numberFormatter } from "@/utils/funcs";
 import { CustomCardFooter } from "./CustomCardFooter";
+import UpDownVotes from "./UpDownVotes";
 
 function CommentCard(CommentCardProp: { comment: Comment; authToken: string }) {
   const comment = CommentCardProp.comment;
   const authToken = CommentCardProp.authToken;
-  const author = useRef("");
-  const authorAvatar = useRef(0);
+  const [author, setAuthor] = useState("");
+  const [authorAvatar, setAuthorAvatar] = useState();
 
-  const [liked, setLiked] = useState(false);
-  const [disliked, setDisliked] = useState(false);
+  const [commentLiked, setCommentLiked] = useState(false);
+  const [commentDisliked, setCommentDisliked] = useState(false);
   const [gotData, setGotData] = useState(false);
 
   useEffect(() => {
@@ -22,9 +23,11 @@ function CommentCard(CommentCardProp: { comment: Comment; authToken: string }) {
       method: "GET",
     })
       .then((res) => res.json())
-      .then((json) => {
-        author.current = json.username;
-        authorAvatar.current = json.avatar;
+      .then((json) => json.user)
+      .then((user) => {
+        console.log(user);
+        setAuthor(user.username);
+        setAuthorAvatar(user.avatar);
         if (!gotData) {
           setGotData(true);
         }
@@ -33,16 +36,28 @@ function CommentCard(CommentCardProp: { comment: Comment; authToken: string }) {
 
   return (
     <>
-      <Card>
-        <CardHeader className="flex justify-between">
-          {/* <CardTitle>This is comment</CardTitle> */}
-          <div className="flex">
-            <UserAvatar avatarIndex={authorAvatar.current} />
-            <h1>{author.current}</h1>
-          </div>
-          <div className="">
-            {numberFormatter(Math.abs(comment.upvotes - comment.downvotes))}
-          </div>
+      <Card className="bg-[#161616] m-3 text-white">
+        <CardHeader>
+          <CardTitle className="flex justify-between">
+            <div className="flex gap-2">
+              <UserAvatar avatarIndex={authorAvatar} />
+              <p className="mt-2  text-xl">{author}</p>
+            </div>
+            <div className="flex gap-2">
+              <p className="text-base">
+                {" "}
+                {numberFormatter(
+                  Math.abs(comment.upvotes - comment.downvotes)
+                )}{" "}
+              </p>
+              <UpDownVotes
+                upvotes={comment.upvotes}
+                downvotes={comment.downvotes}
+                width={3}
+                height={3}
+              />
+            </div>
+          </CardTitle>
         </CardHeader>
         <CardContent>
           <p>{comment.content}</p>
@@ -50,10 +65,10 @@ function CommentCard(CommentCardProp: { comment: Comment; authToken: string }) {
         <CustomCardFooter
           id={comment.id}
           authToken={authToken}
-          liked={liked}
-          disliked={disliked}
-          setLiked={setLiked}
-          setDisliked={setDisliked}
+          liked={commentLiked}
+          disliked={commentDisliked}
+          setLiked={setCommentLiked}
+          setDisliked={setCommentDisliked}
           isPost={false}
         />
       </Card>

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { HomeInfo, PostInfo, HomeView } from "./types";
+import { HomeInfo, PostInfo, HomeView, UserInfo } from "./types";
 import { BACKEND_URL } from "./utils/constants";
 import PostCard from "./custom/PostCard";
 import { HomeProfile } from "./custom/HomeProfile";
@@ -10,6 +10,11 @@ function Home(HomeProps: HomeInfo) {
   const [posts, setPosts] = useState<PostInfo[]>([]);
   const [view, setView] = useState<HomeView>(HomeView.Content);
   const [currentPost, setCurrentPost] = useState<PostInfo>();
+  const [userProfile, setUserProfile] = useState<UserInfo>({
+    username: "Loading",
+    email: "Loading",
+    avatarIndex: 0,
+  });
 
   useEffect(() => {
     // fetch home data inside here
@@ -27,6 +32,22 @@ function Home(HomeProps: HomeInfo) {
             setPosts(posts);
           }
         );
+      });
+
+    fetch(`${BACKEND_URL}/user/view`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${authToken}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((json) => json.user)
+      .then((user) => {
+        setUserProfile({
+          email: user.email_address,
+          username: user.username,
+          avatarIndex: user.avatar,
+        });
       });
   }, []);
 
@@ -63,7 +84,7 @@ function Home(HomeProps: HomeInfo) {
           onClick={() => console.log("ok")}
         ></img>
       </div>
-      <HomeProfile side="right" />
+      <HomeProfile side="right" avatarIndex={userProfile.avatarIndex} />
     </div>
   );
 

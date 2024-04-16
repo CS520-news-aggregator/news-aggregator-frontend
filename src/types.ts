@@ -51,6 +51,12 @@ type PostInfo = {
   downvotes: number;
 };
 
+type UserInfo = {
+  email: string;
+  username: string;
+  avatarIndex:  number;
+}
+
 type Comment = {
   id: string;
   content: string;
@@ -75,6 +81,7 @@ type MessageProp = {
 
 type HomeProfileInfo = {
   side: "top" | "bottom" | "left" | "right" | null | undefined;
+  avatarIndex: number;
 };
 
 export type {
@@ -84,6 +91,7 @@ export type {
   PreferencesInfo,
   PostInfo,
   HomeInfo,
+  UserInfo,
   MessageProp,
   HomeProfileInfo,
   Comment,

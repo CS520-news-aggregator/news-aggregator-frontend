@@ -26,8 +26,8 @@ function PostView(PostViewProp: { post: PostInfo; authToken: string }) {
       method: "GET",
     })
       .then((res) => res.json())
-      .then((json) => setComments((c) => [...c, ...json.comments]));
-    }, []);
+      .then((json) => setComments(() => [...json.comments]));
+  }, []);
 
   return (
     <Card className="overflow-y-scroll mt-3 rounded-md bg-[#161616] border-slate-200">
@@ -48,11 +48,9 @@ function PostView(PostViewProp: { post: PostInfo; authToken: string }) {
         setDisliked={setDisliked}
         isPost={true}
       />
-      {
-        comments.map((comment) => 
-          <CommentCard comment={comment} authToken={authToken} />
-        )
-      }
+      {comments.map((comment) => (
+        <CommentCard comment={comment} authToken={authToken} />
+      ))}
     </Card>
   );
 }
