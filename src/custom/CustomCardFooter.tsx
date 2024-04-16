@@ -1,5 +1,6 @@
 import { CardFooter } from "@/components/ui/card";
-import { handeLike, handleDislike } from "@/utils/funcs";
+// import { handeLike, handleDislike } from "@/utils/funcs";
+import { BACKEND_URL } from "@/utils/constants";
 
 export function CustomCardFooter(CardFooterProp: {
   id: string;
@@ -18,6 +19,51 @@ export function CustomCardFooter(CardFooterProp: {
   const setDisliked = CardFooterProp.setDisliked;
   const isPost = CardFooterProp.isPost;
 
+  const handeLike = (
+    id: string,
+    authToken: string,
+    liked: boolean,
+    isPost: boolean
+  ) => {
+    const route = `upvote-${isPost ? "post?post_id" : "comment?comment_id"}`;
+    if (liked) {
+      setLiked(false);
+      fetch(`${BACKEND_URL}/aggregator/remove-${route}=${id}`, {
+        method: "PUT",
+        headers: { Authorization: `Bearer ${authToken}` },
+      });
+    } else {
+      setLiked(true);
+      setDisliked(false);
+      fetch(`${BACKEND_URL}/aggregator/${route}=${id}`, {
+        method: "PUT",
+        headers: { Authorization: `Bearer ${authToken}` },
+      });
+    }
+  };
+  const handleDislike = (
+    id: string,
+    authToken: string,
+    disliked: boolean,
+    isPost: boolean
+  ) => {
+    const route = `downvote-${isPost ? "post?post_id" : "comment?comment_id"}`;
+    if (disliked) {
+      setDisliked(false);
+      fetch(`${BACKEND_URL}/aggregator/remove-${route}=${id}`, {
+        method: "PUT",
+        headers: { Authorization: `Bearer ${authToken}` },
+      });
+    } else {
+      setLiked(false);
+      setDisliked(true);
+      fetch(`${BACKEND_URL}/aggregator/${route}=${id}`, {
+        method: "PUT",
+        headers: { Authorization: `Bearer ${authToken}` },
+      });
+    }
+  };
+
   return (
     <CardFooter className="flex justify-between ">
       <div className="flex gap-4">
@@ -29,9 +75,7 @@ export function CustomCardFooter(CardFooterProp: {
           stroke="white"
           className="w-6 h-6 hover:cursor-pointer"
           color={liked ? "green" : ""}
-          onClick={() =>
-            handeLike(id, authToken, liked, setLiked, setDisliked, isPost)
-          }
+          onClick={() => handeLike(id, authToken, liked, isPost)}
         >
           <path
             stroke-linecap="round"
@@ -47,16 +91,7 @@ export function CustomCardFooter(CardFooterProp: {
           stroke="white"
           className="w-6 h-6 hover:cursor-pointer"
           color={disliked ? "red" : ""}
-          onClick={() =>
-            handleDislike(
-              id,
-              authToken,
-              disliked,
-              setLiked,
-              setDisliked,
-              isPost
-            )
-          }
+          onClick={() => handleDislike(id, authToken, disliked, isPost)}
         >
           <path
             stroke-linecap="round"

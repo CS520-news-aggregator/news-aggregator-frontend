@@ -40,9 +40,9 @@ function CommentCard(CommentCardProp: { comment: Comment; authToken: string }) {
             <UserAvatar avatarIndex={authorAvatar.current} />
             <h1>{author.current}</h1>
           </div>
-          <h2>
+          <div className="">
             {numberFormatter(Math.abs(comment.upvotes - comment.downvotes))}
-          </h2>
+          </div>
         </CardHeader>
         <CardContent>
           <p>{comment.content}</p>
