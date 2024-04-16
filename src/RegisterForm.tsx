@@ -31,7 +31,7 @@ function RegisterForm(registerProps: RegisterFormInfo) {
       }),
       headers: { "Content-Type": "application/json" },
     })
-      .then((res) => res.json())
+      .then((res) => (res.status === 200 ? res.json() : Promise.reject()))
       .then((json) => {
         setAuthToken(json.token);
         setLoginState(true);
