@@ -51,6 +51,14 @@ type PostInfo = {
   downvotes: number;
 };
 
+type Comment = {
+  id: string;
+  content: string;
+  upvotes: number;
+  downvotes: number;
+  author_id: string;
+};
+
 type HomeInfo = {
   authToken: string;
 };
@@ -67,7 +75,7 @@ type MessageProp = {
 
 type HomeProfileInfo = {
   side: "top" | "bottom" | "left" | "right" | null | undefined;
-}
+};
 
 export type {
   LoginInfo,
@@ -77,7 +85,8 @@ export type {
   PostInfo,
   HomeInfo,
   MessageProp,
-  HomeProfileInfo
+  HomeProfileInfo,
+  Comment,
 };
 
 export { HomeView };

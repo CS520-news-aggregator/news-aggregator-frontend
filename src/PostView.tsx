@@ -1,4 +1,4 @@
-import { PostInfo } from "./types";
+import { PostInfo, Comment } from "./types";
 
 import {
   Card,
@@ -11,6 +11,7 @@ import { PostCardTitle } from "./custom/PostCardTitle";
 import { PostCardFooter } from "./custom/PostCardFooter";
 import { useState, useEffect } from "react";
 import { BACKEND_URL } from "./utils/constants";
+import CommentCard from "./custom/CommentCard";
 
 function PostView(PostViewProp: { post: PostInfo; authToken: string }) {
   const post: PostInfo = PostViewProp.post;
@@ -18,14 +19,14 @@ function PostView(PostViewProp: { post: PostInfo; authToken: string }) {
 
   const [liked, setLiked] = useState(false);
   const [disliked, setDisliked] = useState(false);
-  const [comments, setComments] = useState([]);
+  const [comments, setComments] = useState<Comment[]>([]);
 
   useEffect(() => {
     fetch(`${BACKEND_URL}/aggregator/get-comments?post_id=${post.id}`, {
       method: "GET",
     })
       .then((res) => res.json())
-      .then((json) => setComments(json.comments));
+      .then((json) => setComments((c) => [...c, json.comments]));
   });
 
   return (
@@ -47,7 +48,7 @@ function PostView(PostViewProp: { post: PostInfo; authToken: string }) {
         setDisliked={setDisliked}
       />
       {comments.map((comment) => (
-        <div>{comment}</div>
+        <CommentCard comment={comment}/>
       ))}
     </Card>
   );

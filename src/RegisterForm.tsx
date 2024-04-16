@@ -51,7 +51,7 @@ function RegisterForm(registerProps: RegisterFormInfo) {
               id="username"
               placeholder="Username"
               className="block w-11/12 p-4 text-lg rounded-sm bg-black"
-              value={email}
+              value={username}
               onChange={(e) => setUsername(e.target.value)}
             />
             <div className="mt-2">
