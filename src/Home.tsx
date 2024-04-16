@@ -77,7 +77,7 @@ function Home(HomeProps: HomeInfo) {
           {view == HomeView.Content ? (
             contentView
           ) : (
-            <PostView post={SAMPLE_POSTS[0]} authToken={authToken} />
+            <PostView post={posts[0]} authToken={authToken} />
           )}
         </div>
       </div>
