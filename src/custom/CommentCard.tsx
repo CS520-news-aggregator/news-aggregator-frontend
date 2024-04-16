@@ -18,6 +18,9 @@ function CommentCard(CommentCardProp: { comment: Comment }) {
   const author = useRef("");
   const authorAvatar = useRef(0);
 
+  const [liked, setLiked] = useState(false);
+  const [disliked, setDisliked] = useState(false);
+
   useEffect(() => {
     fetch(`${BACKEND_URL}/user/get-user?user_id=${comment.author_id}`, {
       method: "GET",
