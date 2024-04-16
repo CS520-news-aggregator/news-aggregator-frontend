@@ -30,7 +30,7 @@ function PostCard(PostProp: {
   };
 
   return (
-    <Card className="m-2 text-white bg-[#161616]" onClick={handlePostClick}>
+    <Card className="m-2 text-white bg-[#161616] hover:cursor-pointer" onClick={handlePostClick}>
       <CardHeader>
         <PostCardTitle post={post} />
         <CardDescription className="gap-4">
