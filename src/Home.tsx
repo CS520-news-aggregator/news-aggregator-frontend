@@ -8,28 +8,37 @@ import PostView from "./PostView";
 function Home(HomeProps: HomeInfo) {
   const authToken = HomeProps.authToken;
   const [posts, setPosts] = useState<PostInfo[]>([]);
-  const [view, setView] = useState<HomeView>(HomeView.Post);
+  const [view, setView] = useState<HomeView>(HomeView.Content);
 
-  // let posts: Post[];
-  // TEST POSTS
   useEffect(() => {
-    setPosts(SAMPLE_POSTS);
-  }, []);
+    // fetch home data inside here
+    fetch(`${BACKEND_URL}/recommender/get-recommendations`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${authToken}`,
+      }
+    })
+      .then((res) => res.json())
+      .then((json) => {
+        let postIds = json.list_recommendations;
+        Promise.all(postIds.map((postId: string) => getPost(postId))).then((posts) => {
+          console.log(posts);
+          setPosts(posts);
+        });
+      }
+      )
+    }, []);
 
-  // useEffect(() => {
-  //   // fetch home data inside here
-  //   fetch(`${BACKEND_URL}/recommender/get-recommendations`, {
-  //     method: "GET",
-  //     headers: {
-  // Authorization: `Bearer ${authToken}`,
-  // }
-  //   })
-  //     .then((res) => res.json())
-  //     .then((json) => {
-  //       json.forEach((post) => setPosts([...posts, post]));
-  //     });
-  //   return () => setPosts([]);
-  // }, []);
+  async function getPost(postId: string) {
+    return fetch(`${BACKEND_URL}/aggregator/get-aggregation?post_id=${postId}`, {
+      method: "GET"
+    })
+      .then((res) => res.json())
+      .then((json) => {
+        json.post.id = postId;
+        return json.post;
+      });
+  }
 
   const topHeader = (
     <div className="flex justify-between bg-[rgb(22,22,22)] pb-3 sticky top-0">
