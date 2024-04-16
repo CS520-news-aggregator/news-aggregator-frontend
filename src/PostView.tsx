@@ -48,9 +48,13 @@ function PostView(PostViewProp: { post: PostInfo; authToken: string }) {
         setDisliked={setDisliked}
         isPost={true}
       />
-      {comments.map((comment) => (
-        <CommentCard comment={comment} authToken={authToken} />
-      ))}
+      {comments.length === 0 ? (
+        <></>
+      ) : (
+        comments.map((comment) => (
+          <CommentCard comment={comment} authToken={authToken} />
+        ))
+      )}
     </Card>
   );
 }
