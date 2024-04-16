@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { HomeInfo, PostInfo, HomeView } from "./types";
-import { BACKEND_URL, SAMPLE_POSTS } from "./utils/constants";
+import { BACKEND_URL } from "./utils/constants";
 import PostCard from "./custom/PostCard";
 import { HomeProfile } from "./custom/HomeProfile";
 import PostView from "./PostView";
@@ -8,7 +8,8 @@ import PostView from "./PostView";
 function Home(HomeProps: HomeInfo) {
   const authToken = HomeProps.authToken;
   const [posts, setPosts] = useState<PostInfo[]>([]);
-  const [view, setView] = useState<HomeView>(HomeView.Post);
+  const [view, setView] = useState<HomeView>(HomeView.Content);
+  const [currentPost, setCurrentPost] = useState<PostInfo>();
 
   useEffect(() => {
     // fetch home data inside here
@@ -43,9 +44,19 @@ function Home(HomeProps: HomeInfo) {
       });
   }
 
+  const handleLogoClick = (event: React.SyntheticEvent) => {
+    event.preventDefault();
+    setView(HomeView.Content);
+  };
+
   const topHeader = (
     <div className="flex justify-between bg-[rgb(22,22,22)] pb-3 sticky top-0">
-      <h1 className="font-anton text-4xl mt-7 ml-10 text-white">AGORA</h1>
+      <h1
+        className="font-anton text-4xl mt-7 ml-10 text-white"
+        onClick={handleLogoClick}
+      >
+        AGORA
+      </h1>
       <div className="w-2/3 h-1/2 rounded-sm border-gray-500 mt-7 flex justify-center">
         <input className=" w-10/12 text-lg rounded-sm focus:outline-none bg-slate-600 text-white p-2"></input>
         <img
@@ -62,7 +73,12 @@ function Home(HomeProps: HomeInfo) {
   const contentView = (
     <div className="flex-row overflow-y-scroll">
       {posts.map((post) => (
-        <PostCard post={post} authToken={authToken} />
+        <PostCard
+          post={post}
+          authToken={authToken}
+          setView={setView}
+          setCurrentPost={setCurrentPost}
+        />
       ))}
     </div>
   );
@@ -78,7 +94,7 @@ function Home(HomeProps: HomeInfo) {
           ) : posts.length === 0 ? (
             <></>
           ) : (
-            <PostView post={posts[0]} authToken={authToken} />
+            <PostView post={currentPost} authToken={authToken} />
           )}
         </div>
       </div>

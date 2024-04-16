@@ -4,20 +4,33 @@ import {
   CardDescription,
   CardHeader,
 } from "@/components/ui/card";
-import { PostInfo } from "@/types";
+import { HomeView, PostInfo } from "@/types";
 import { useState } from "react";
 import { PostCardTitle } from "./PostCardTitle";
 import { CustomCardFooter } from "./CustomCardFooter";
 
-function PostCard(PostProp: { post: PostInfo; authToken: string }) {
+function PostCard(PostProp: {
+  post: PostInfo;
+  authToken: string;
+  setView: (state: HomeView) => void;
+  setCurrentPost: (post: PostInfo) => void;
+}) {
   const post = PostProp.post;
   const authToken = PostProp.authToken;
+  const setCurrentPost = PostProp.setCurrentPost;
+  const setView = PostProp.setView;
 
   const [liked, setLiked] = useState(false);
   const [disliked, setDisliked] = useState(false);
 
+  const handlePostClick = (event: React.SyntheticEvent) => {
+    event.preventDefault();
+    setCurrentPost(post);
+    setView(HomeView.Post);
+  };
+
   return (
-    <Card className="m-2 text-white bg-[#161616]">
+    <Card className="m-2 text-white bg-[#161616]" onClick={handlePostClick}>
       <CardHeader>
         <PostCardTitle post={post} />
         <CardDescription className="gap-4">
