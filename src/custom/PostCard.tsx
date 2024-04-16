@@ -30,17 +30,18 @@ function PostCard(PostProp: {
   };
 
   return (
-    <Card className="m-2 text-white bg-[#161616] hover:cursor-pointer" onClick={handlePostClick}>
-      <CardHeader>
-        <PostCardTitle post={post} />
-        <CardDescription className="gap-4">
-          <p>{post.author}</p> <p>{post.link}</p>
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <p>Card Content</p>
-      </CardContent>
-
+    <Card className="m-2 text-white bg-[#161616] hover:cursor-pointer">
+      <div onClick={handlePostClick}>
+        <CardHeader>
+          <PostCardTitle post={post} />
+          <CardDescription className="gap-4">
+            <p>{post.author}</p> <p>{post.link}</p>
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <p>Card Content</p>
+        </CardContent>
+      </div>
       <CustomCardFooter
         id={post.id}
         authToken={authToken}
