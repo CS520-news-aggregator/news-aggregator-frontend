@@ -21,7 +21,7 @@ function SignInForm(signInProps: SignInFormInfo) {
       body: JSON.stringify({ email_address: email, password: password }),
       headers: { "Content-Type": "application/json" },
     })
-      .then((res) => res.json())
+      .then((res) => (res.status === 200 ? res.json() : Promise.reject()))
       .then((json) => {
         setAuthToken(json.token);
         setLoginState(true);
