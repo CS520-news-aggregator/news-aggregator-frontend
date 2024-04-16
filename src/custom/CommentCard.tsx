@@ -29,7 +29,7 @@ function CommentCard(CommentCardProp: { comment: Comment; authToken: string }) {
           setGotData(true);
         }
       });
-  });
+  }, [gotData]);
 
   return (
     <>

@@ -27,7 +27,7 @@ function PostView(PostViewProp: { post: PostInfo; authToken: string }) {
     })
       .then((res) => res.json())
       .then((json) => setComments((c) => [...c, json.comments]));
-  });
+  }, []);
 
   return (
     <Card className="overflow-y-scroll mt-3 rounded-md bg-[#161616] border-slate-200">
@@ -40,15 +40,16 @@ function PostView(PostViewProp: { post: PostInfo; authToken: string }) {
       </CardContent>
 
       <CustomCardFooter
-        post={post}
+        id={post.id}
         authToken={authToken}
         liked={liked}
         disliked={disliked}
         setLiked={setLiked}
         setDisliked={setDisliked}
+        isPost={true}
       />
       {comments.map((comment) => (
-        <CommentCard comment={comment}/>
+        <CommentCard comment={comment} authToken={authToken} />
       ))}
     </Card>
   );
