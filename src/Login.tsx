@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { LoginInfo } from "./types.ts";
 import SignInForm from "./SignInForm.tsx";
 import RegisterForm from "./RegisterForm.tsx";
@@ -14,6 +14,11 @@ function Login(loginProps: LoginInfo) {
   const [toggleRegister, setToggleRegister] = useState(false);
   const [signInFail, setSignInFail] = useState(false);
   const [registerFail, setRegisterFail] = useState(false);
+
+  useEffect(() => {
+    setEmail("");
+    setPassword("");
+  }, [toggleRegister]);
 
   return (
     <section
