@@ -7,7 +7,7 @@ import {
 import { PostInfo } from "@/types";
 import { useState } from "react";
 import { PostCardTitle } from "./PostCardTitle";
-import { PostCardFooter } from "./PostCardFooter";
+import { CustomCardFooter } from "./CustomCardFooter";
 
 function PostCard(PostProp: { post: PostInfo; authToken: string }) {
   const post = PostProp.post;
@@ -28,13 +28,14 @@ function PostCard(PostProp: { post: PostInfo; authToken: string }) {
         <p>Card Content</p>
       </CardContent>
 
-      <PostCardFooter
-        post={post}
+      <CustomCardFooter
+        id={post.id}
         authToken={authToken}
         liked={liked}
         disliked={disliked}
         setLiked={setLiked}
         setDisliked={setDisliked}
+        isPost={true}
       />
     </Card>
   );

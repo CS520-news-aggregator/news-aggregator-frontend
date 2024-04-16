@@ -1,21 +1,22 @@
 import { CardFooter } from "@/components/ui/card";
-import { PostInfo } from "@/types";
 import { handeLike, handleDislike } from "@/utils/funcs";
 
-export function PostCardFooter(PostCardFooterProp: {
-  post: PostInfo;
+export function CustomCardFooter(CardFooterProp: {
+  id: string;
   authToken: string;
   liked: boolean;
   disliked: boolean;
   setLiked: (state: boolean) => void;
   setDisliked: (state: boolean) => void;
+  isPost: boolean;
 }) {
-  const post = PostCardFooterProp.post;
-  const authToken = PostCardFooterProp.authToken;
-  const liked = PostCardFooterProp.liked;
-  const disliked = PostCardFooterProp.disliked;
-  const setLiked = PostCardFooterProp.setLiked;
-  const setDisliked = PostCardFooterProp.setDisliked;
+  const id = CardFooterProp.id;
+  const authToken = CardFooterProp.authToken;
+  const liked = CardFooterProp.liked;
+  const disliked = CardFooterProp.disliked;
+  const setLiked = CardFooterProp.setLiked;
+  const setDisliked = CardFooterProp.setDisliked;
+  const isPost = CardFooterProp.isPost;
 
   return (
     <CardFooter className="flex justify-between ">
@@ -29,7 +30,7 @@ export function PostCardFooter(PostCardFooterProp: {
           className="w-6 h-6 hover:cursor-pointer"
           color={liked ? "green" : ""}
           onClick={() =>
-            handeLike(post.id, authToken, liked, setLiked, setDisliked)
+            handeLike(id, authToken, liked, setLiked, setDisliked, isPost)
           }
         >
           <path
@@ -47,7 +48,14 @@ export function PostCardFooter(PostCardFooterProp: {
           className="w-6 h-6 hover:cursor-pointer"
           color={disliked ? "red" : ""}
           onClick={() =>
-            handleDislike(post.id, authToken, disliked, setLiked, setDisliked)
+            handleDislike(
+              id,
+              authToken,
+              disliked,
+              setLiked,
+              setDisliked,
+              isPost
+            )
           }
         >
           <path

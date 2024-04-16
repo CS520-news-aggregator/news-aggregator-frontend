@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/card";
 
 import { PostCardTitle } from "./custom/PostCardTitle";
-import { PostCardFooter } from "./custom/PostCardFooter";
+import { CustomCardFooter } from "./custom/CustomCardFooter";
 import { useState, useEffect } from "react";
 import { BACKEND_URL } from "./utils/constants";
 import CommentCard from "./custom/CommentCard";
@@ -39,7 +39,7 @@ function PostView(PostViewProp: { post: PostInfo; authToken: string }) {
         <p>Card Content</p>
       </CardContent>
 
-      <PostCardFooter
+      <CustomCardFooter
         post={post}
         authToken={authToken}
         liked={liked}

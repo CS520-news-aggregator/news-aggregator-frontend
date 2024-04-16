@@ -10,18 +10,20 @@ const handeLike = (
   authToken: string,
   liked: boolean,
   setLiked: (state: boolean) => void,
-  setDisliked: (state: boolean) => void
+  setDisliked: (state: boolean) => void,
+  isPost: boolean
 ) => {
+  const route = `upvote-${isPost ? "post?post_id" : "comment?comment_id"}`;
   if (liked) {
     setLiked(false);
-    fetch(`${BACKEND_URL}/aggregator/remove-upvote?post_id=${id}`, {
+    fetch(`${BACKEND_URL}/aggregator/remove-${route}=${id}`, {
       method: "PUT",
       headers: { Authorization: `Bearer ${authToken}` },
     });
   } else {
     setLiked(true);
     setDisliked(false);
-    fetch(`${BACKEND_URL}/aggregator/upvote?post_id=${id}`, {
+    fetch(`${BACKEND_URL}/aggregator/${route}=${id}`, {
       method: "PUT",
       headers: { Authorization: `Bearer ${authToken}` },
     });
@@ -32,18 +34,20 @@ const handleDislike = (
   authToken: string,
   disliked: boolean,
   setLiked: (state: boolean) => void,
-  setDisliked: (state: boolean) => void
+  setDisliked: (state: boolean) => void,
+  isPost: boolean
 ) => {
+  const route = `downvote-${isPost ? "post?post_id" : "comment?comment_id"}`;
   if (disliked) {
     setDisliked(false);
-    fetch(`${BACKEND_URL}/aggregator/remove-downvote?post_id=${id}`, {
+    fetch(`${BACKEND_URL}/aggregator/remove-${route}=${id}`, {
       method: "PUT",
       headers: { Authorization: `Bearer ${authToken}` },
     });
   } else {
     setLiked(false);
     setDisliked(true);
-    fetch(`${BACKEND_URL}/aggregator/downvote?post_id=${id}`, {
+    fetch(`${BACKEND_URL}/aggregator/${route}=${id}`, {
       method: "PUT",
       headers: { Authorization: `Bearer ${authToken}` },
     });

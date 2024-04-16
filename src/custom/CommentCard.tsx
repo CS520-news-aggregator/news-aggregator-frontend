@@ -1,20 +1,15 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
 import { Comment } from "@/types";
 import { BACKEND_URL } from "@/utils/constants";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { UserAvatar } from "./UserAvatar";
 import { numberFormatter } from "@/utils/funcs";
+import { CustomCardFooter } from "./CustomCardFooter";
 
-function CommentCard(CommentCardProp: { comment: Comment }) {
+function CommentCard(CommentCardProp: { comment: Comment; authToken: string }) {
   const comment = CommentCardProp.comment;
+  const authToken = CommentCardProp.authToken;
   const author = useRef("");
   const authorAvatar = useRef(0);
 
@@ -48,9 +43,15 @@ function CommentCard(CommentCardProp: { comment: Comment }) {
         <CardContent>
           <p>{comment.content}</p>
         </CardContent>
-        <CardFooter>
-          <p>Card Footer</p>
-        </CardFooter>
+        <CustomCardFooter
+          id={comment.id}
+          authToken={authToken}
+          liked={liked}
+          disliked={disliked}
+          setLiked={setLiked}
+          setDisliked={setDisliked}
+          isPost={false}
+        />
       </Card>
     </>
   );
