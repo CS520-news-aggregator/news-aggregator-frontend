@@ -68,7 +68,7 @@ function Home(HomeProps: HomeInfo) {
   };
 
   const topHeader = (
-    <div className="flex justify-between bg-[rgb(22,22,22)] pb-3 sticky top-0">
+    <div className="flex justify-between bg-[rgb(22,22,22)] pb-3 sticky top-0 z-50">
       <h1
         className="font-anton text-4xl mt-7 ml-10 text-white hover:cursor-pointer"
         onClick={handleLogoClick}
