@@ -31,12 +31,6 @@ function PostCard(PostProp: {
     } else {
       setLiked(false);
     }
-    
-    if (userVotes.postDownvotes.includes(post.id)) {
-      setDisliked(true);
-    } else {
-      setDisliked(false);
-    }
   }, [userVotes]);
 
   const handlePostClick = (event: React.SyntheticEvent) => {
@@ -54,7 +48,10 @@ function PostCard(PostProp: {
             <p>{post.author}</p> <p>{post.link}</p>
           </CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="flex-row ">
+          <div className="flex justify-center">
+            <img src={post.media} alt="" width={"50%"} />
+          </div>
           <p>Card Content</p>
         </CardContent>
       </div>

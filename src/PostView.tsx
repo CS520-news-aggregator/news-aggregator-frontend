@@ -13,10 +13,22 @@ import { useState, useEffect } from "react";
 import { BACKEND_URL } from "./utils/constants";
 import CommentCard from "./custom/CommentCard";
 
-function PostView(PostViewProp: { post: PostInfo; userVotes: UserVotes, authToken: string }) {
+function PostView(PostViewProp: {
+  post: PostInfo;
+  userVotes: UserVotes;
+  authToken: string;
+}) {
   const post: PostInfo = PostViewProp.post;
   const authToken = PostViewProp.authToken;
   const userVotes = PostViewProp.userVotes;
+
+  useEffect(() => {
+    if (userVotes.postUpvotes.includes(post.id)) {
+      setLiked(true);
+    } else if (userVotes.postDownvotes.includes(post.id)) {
+      setDisliked(true);
+    }
+  }, [userVotes]);
 
   const [liked, setLiked] = useState(false);
   const [disliked, setDisliked] = useState(false);
@@ -50,7 +62,10 @@ function PostView(PostViewProp: { post: PostInfo; userVotes: UserVotes, authToke
         <PostCardTitle post={post} />
         <CardDescription>Card Description</CardDescription>
       </CardHeader>
-      <CardContent className="text-white">
+      <CardContent className="text-white flex-row">
+        <div className="flex justify-center">
+          <img src={post.media} alt="" width={"75%"} />
+        </div>
         <p>Card Content</p>
       </CardContent>
 
@@ -64,7 +79,11 @@ function PostView(PostViewProp: { post: PostInfo; userVotes: UserVotes, authToke
         isPost={true}
       />
       {comments.map((comment) => (
-        <CommentCard comment={comment} authToken={authToken} userVotes={userVotes} />
+        <CommentCard
+          comment={comment}
+          authToken={authToken}
+          userVotes={userVotes}
+        />
       ))}
     </Card>
   );
