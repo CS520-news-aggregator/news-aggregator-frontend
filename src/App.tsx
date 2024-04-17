@@ -5,18 +5,22 @@ import Login from "./Login";
 import Preferences from "./Preferences";
 import Home from "./Home";
 import { BACKEND_URL } from "./utils/constants";
-import { LoginState } from "./types";
+import { LoginState, UserInfo } from "./types";
 
 function App() {
-  const [loginState, setLoginState] = useState<LoginState>(LoginState.Loading);
+  const [loginState, setLoginState] = useState<LoginState>(
+    LoginState.LoggedOut
+  );
   const [authToken, setAuthToken] = useState("");
   const [firstTimeUser, setFirstTimeUser] = useState(false);
+  const [currUser, setCurrUser] = useState<UserInfo>();
 
   useEffect(() => {
     setAuthTokenWrapper(window.localStorage.getItem("authToken") || "");
   }, []);
 
   const setAuthTokenWrapper = (newToken: string) => {
+    setLoginState(LoginState.Loading);
     setAuthToken(newToken);
     window.localStorage.setItem("authToken", newToken);
     if (newToken !== "") {
