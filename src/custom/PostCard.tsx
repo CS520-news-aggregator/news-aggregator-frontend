@@ -28,10 +28,16 @@ function PostCard(PostProp: {
   useEffect(() => {
     if (userVotes.postUpvotes.includes(post.id)) {
       setLiked(true);
-    } else if (userVotes.postDownvotes.includes(post.id)) {
-      setDisliked(true);
+    } else {
+      setLiked(false);
     }
-  }, [userVotes])
+    
+    if (userVotes.postDownvotes.includes(post.id)) {
+      setDisliked(true);
+    } else {
+      setDisliked(false);
+    }
+  }, [userVotes]);
 
   const handlePostClick = (event: React.SyntheticEvent) => {
     event.preventDefault();

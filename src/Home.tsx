@@ -57,15 +57,15 @@ function Home(HomeProps: HomeInfo) {
           avatarIndex: user.avatar,
         });
 
-        const votes = json.votes;
+        const userVotes = json.votes;
         setUserVotes({
-          postUpvotes: votes.list_of_posts_upvotes,
-          postDownvotes: votes.list_of_posts_downvotes,
-          commentUpvotes: votes.list_of_comments_upvotes,
-          commentDownvotes: votes.list_of_comments_downvotes,
+          postUpvotes: userVotes.list_of_posts_upvotes,
+          postDownvotes: userVotes.list_of_posts_downvotes,
+          commentUpvotes: userVotes.list_of_comments_upvotes,
+          commentDownvotes: userVotes.list_of_comments_downvotes,
         });
       });
-  }, []);
+  }, [view]);
 
   async function getPost(postId: string) {
     return fetch(

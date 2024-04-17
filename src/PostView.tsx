@@ -18,17 +18,23 @@ function PostView(PostViewProp: { post: PostInfo; userVotes: UserVotes, authToke
   const authToken = PostViewProp.authToken;
   const userVotes = PostViewProp.userVotes;
 
-  useEffect(() => {
-    if (userVotes.postUpvotes.includes(post.id)) {
-      setLiked(true);
-    } else if (userVotes.postDownvotes.includes(post.id)) {
-      setDisliked(true);
-    }
-  }, [userVotes])
-
   const [liked, setLiked] = useState(false);
   const [disliked, setDisliked] = useState(false);
   const [comments, setComments] = useState<Comment[]>([]);
+
+  useEffect(() => {
+    if (userVotes.postUpvotes.includes(post.id)) {
+      setLiked(true);
+    } else {
+      setLiked(false);
+    }
+    
+    if (userVotes.postDownvotes.includes(post.id)) {
+      setDisliked(true);
+    } else {
+      setDisliked(false);
+    }
+  }, [userVotes])
 
   useEffect(() => {
     fetch(`${BACKEND_URL}/aggregator/get-comments?post_id=${post.id}`, {
