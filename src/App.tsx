@@ -20,10 +20,10 @@ function App() {
   }, []);
 
   const setAuthTokenWrapper = (newToken: string) => {
-    setLoginState(LoginState.Loading);
     setAuthToken(newToken);
     window.localStorage.setItem("authToken", newToken);
     if (newToken !== "") {
+      setLoginState(LoginState.Loading);
       fetch(`${BACKEND_URL}/user/view`, {
         method: "GET",
         headers: {
