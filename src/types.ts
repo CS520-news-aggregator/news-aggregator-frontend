@@ -9,7 +9,7 @@ type UserForm = {
 
 type BaseInfo = {
   setAuthToken: (token: string) => void;
-  setLoginState: (loginState: boolean) => void;
+  setLoginState: (loginState: LoginState) => void;
 };
 
 type PreferencesInfo = {
@@ -54,8 +54,8 @@ type PostInfo = {
 type UserInfo = {
   email: string;
   username: string;
-  avatarIndex:  number;
-}
+  avatarIndex: number;
+};
 
 type Comment = {
   id: string;
@@ -72,6 +72,12 @@ type HomeInfo = {
 enum HomeView {
   Content,
   Post,
+}
+
+enum LoginState {
+  LoggedIn,
+  Loading,
+  LoggedOut,
 }
 
 type MessageProp = {
@@ -97,4 +103,4 @@ export type {
   Comment,
 };
 
-export { HomeView };
+export { HomeView, LoginState };

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import AvatarSelection from "./custom/AvatarSelection.tsx";
-import { RegisterFormInfo } from "./types";
+import { LoginState, RegisterFormInfo } from "./types";
 import { BACKEND_URL } from "./utils/constants.ts";
 
 function RegisterForm(registerProps: RegisterFormInfo) {
@@ -34,7 +34,7 @@ function RegisterForm(registerProps: RegisterFormInfo) {
       .then((res) => (res.status === 200 ? res.json() : Promise.reject()))
       .then((json) => {
         setAuthToken(json.token);
-        setLoginState(true);
+        setLoginState(LoginState.LoggedIn);
         setFirstTimeUser(true);
       })
       .catch(() => setRegisterFail(true));

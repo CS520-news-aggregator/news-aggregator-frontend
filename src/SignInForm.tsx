@@ -1,4 +1,4 @@
-import { SignInFormInfo } from "./types";
+import { LoginState, SignInFormInfo } from "./types";
 import { BACKEND_URL } from "./utils/constants.ts";
 
 function SignInForm(signInProps: SignInFormInfo) {
@@ -24,7 +24,7 @@ function SignInForm(signInProps: SignInFormInfo) {
       .then((res) => (res.status === 200 ? res.json() : Promise.reject()))
       .then((json) => {
         setAuthToken(json.token);
-        setLoginState(true);
+        setLoginState(LoginState.LoggedIn);
       })
       .catch(() => setSignInFail(true));
   }
