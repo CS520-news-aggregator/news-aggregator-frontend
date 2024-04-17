@@ -5,7 +5,7 @@ import Login from "./Login";
 import Preferences from "./Preferences";
 import Home from "./Home";
 import { BACKEND_URL } from "./utils/constants";
-import { LoginState, UserInfo } from "./types";
+import { LoginState } from "./types";
 
 function App() {
   const [loginState, setLoginState] = useState<LoginState>(
@@ -13,7 +13,6 @@ function App() {
   );
   const [authToken, setAuthToken] = useState("");
   const [firstTimeUser, setFirstTimeUser] = useState(false);
-  const [currUser, setCurrUser] = useState<UserInfo>();
 
   useEffect(() => {
     setAuthTokenWrapper(window.localStorage.getItem("authToken") || "");
@@ -32,6 +31,7 @@ function App() {
       })
         .then((res) => (res.status === 200 ? res.json() : Promise.reject()))
         .then((json) => {
+          console.log(json);
           setLoginState(LoginState.LoggedIn);
           setFirstTimeUser(json["is_first_time"]);
         })
@@ -40,8 +40,7 @@ function App() {
         });
     }
   };
-
-  // TODO - Persist login state through refresh
+  console.log(firstTimeUser);
   if (loginState == LoginState.Loading) {
     return (
       <>
@@ -59,7 +58,6 @@ function App() {
       </>
     );
   } else {
-    // TODO - Get first time user status from backend
     if (firstTimeUser) {
       return (
         <>
@@ -72,7 +70,7 @@ function App() {
     } else {
       return (
         <>
-          <Home authToken={authToken} />
+          <Home authToken={authToken} setLoginState={setLoginState} />
         </>
       );
     }

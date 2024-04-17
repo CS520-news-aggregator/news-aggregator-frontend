@@ -74,6 +74,7 @@ type Comment = {
 
 type HomeInfo = {
   authToken: string;
+  setLoginState: (state: LoginState) => void;
 };
 
 enum HomeView {
@@ -95,6 +96,8 @@ type MessageProp = {
 type HomeProfileInfo = {
   side: "top" | "bottom" | "left" | "right" | null | undefined;
   avatarIndex: number;
+  userProfile: UserInfo;
+  setLoginState: (state: LoginState) => void;
 };
 
 export type {

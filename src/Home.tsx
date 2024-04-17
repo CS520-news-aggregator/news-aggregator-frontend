@@ -7,6 +7,8 @@ import PostView from "./PostView";
 
 function Home(HomeProps: HomeInfo) {
   const authToken = HomeProps.authToken;
+  const setLoginState = HomeProps.setLoginState;
+
   const [posts, setPosts] = useState<PostInfo[]>([]);
   const [view, setView] = useState<HomeView>(HomeView.Content);
   const [currentPost, setCurrentPost] = useState<PostInfo>();
@@ -98,12 +100,17 @@ function Home(HomeProps: HomeInfo) {
           onClick={() => console.log("ok")}
         ></img>
       </div>
-      <HomeProfile side="right" avatarIndex={userProfile.avatarIndex} />
+      <HomeProfile
+        side="right"
+        avatarIndex={userProfile.avatarIndex}
+        userProfile={userProfile}
+        setLoginState={setLoginState}
+      />
     </div>
   );
 
   const contentView = (
-    <div className="flex-row overflow-y-scroll">
+    <div className="flex-row ">
       {posts.map((post) => (
         <PostCard
           post={post}
@@ -118,7 +125,7 @@ function Home(HomeProps: HomeInfo) {
 
   return (
     <>
-      <div className="grid grid-rows-home h-screen max-h-screen ">
+      <div className="grid grid-rows-home h-screen max-h-screen overflow-y-scroll">
         {topHeader}
         <div className="bg-gradient-to-b from-[#161616] to-slate-900 grid grid-cols-home rounded-sm">
           <div className=""></div>
