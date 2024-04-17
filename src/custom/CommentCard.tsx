@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-import { Comment } from "@/types";
+import { Comment, UserVotes } from "@/types";
 import { BACKEND_URL } from "@/utils/constants";
 import { useEffect, useRef, useState } from "react";
 import { UserAvatar } from "./UserAvatar";
@@ -8,9 +8,11 @@ import { numberFormatter } from "@/utils/funcs";
 import { CustomCardFooter } from "./CustomCardFooter";
 import UpDownVotes from "./UpDownVotes";
 
-function CommentCard(CommentCardProp: { comment: Comment; authToken: string }) {
+function CommentCard(CommentCardProp: { comment: Comment; authToken: string, userVotes: UserVotes}) {
   const comment = CommentCardProp.comment;
   const authToken = CommentCardProp.authToken;
+  const userVotes = CommentCardProp.userVotes;
+
   const [author, setAuthor] = useState("");
   const [authorAvatar, setAuthorAvatar] = useState();
 
@@ -18,6 +20,7 @@ function CommentCard(CommentCardProp: { comment: Comment; authToken: string }) {
   const [commentDisliked, setCommentDisliked] = useState(false);
   const [gotData, setGotData] = useState(false);
 
+  
   useEffect(() => {
     fetch(`${BACKEND_URL}/user/get-user?user_id=${comment.author_id}`, {
       method: "GET",
@@ -32,7 +35,15 @@ function CommentCard(CommentCardProp: { comment: Comment; authToken: string }) {
           setGotData(true);
         }
       });
-  }, [gotData]);
+    }, [gotData]);
+    
+    useEffect(() => {
+      if (userVotes.commentUpvotes.includes(comment.id)) {
+        setCommentLiked(true);
+      } else if (userVotes.commentDownvotes.includes(comment.id)) {
+        setCommentDisliked(true);
+      }
+    }, [userVotes])
 
   return (
     <>

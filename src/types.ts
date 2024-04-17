@@ -57,6 +57,13 @@ type UserInfo = {
   avatarIndex: number;
 };
 
+type UserVotes = {
+  postUpvotes: string[];
+  postDownvotes: string[];
+  commentUpvotes: string[];
+  commentDownvotes: string[];
+};
+
 type Comment = {
   id: string;
   content: string;
@@ -98,6 +105,7 @@ export type {
   PostInfo,
   HomeInfo,
   UserInfo,
+  UserVotes,
   MessageProp,
   HomeProfileInfo,
   Comment,

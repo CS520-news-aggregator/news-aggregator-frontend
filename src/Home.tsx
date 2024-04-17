@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { HomeInfo, PostInfo, HomeView, UserInfo } from "./types";
+import { HomeInfo, PostInfo, HomeView, UserInfo, UserVotes } from "./types";
 import { BACKEND_URL } from "./utils/constants";
 import PostCard from "./custom/PostCard";
 import { HomeProfile } from "./custom/HomeProfile";
@@ -14,6 +14,12 @@ function Home(HomeProps: HomeInfo) {
     username: "Loading",
     email: "Loading",
     avatarIndex: 0,
+  });
+  const [userVotes, setUserVotes] = useState<UserVotes>({
+    postUpvotes: [],
+    postDownvotes: [],
+    commentUpvotes: [],
+    commentDownvotes: [],
   });
 
   useEffect(() => {
@@ -41,12 +47,20 @@ function Home(HomeProps: HomeInfo) {
       },
     })
       .then((res) => res.json())
-      .then((json) => json.user)
-      .then((user) => {
+      .then((json) => {
+        const user = json.user;
         setUserProfile({
           email: user.email_address,
           username: user.username,
           avatarIndex: user.avatar,
+        });
+
+        const votes = json.votes;
+        setUserVotes({
+          postUpvotes: votes.list_of_posts_upvotes,
+          postDownvotes: votes.list_of_posts_downvotes,
+          commentUpvotes: votes.list_of_comments_upvotes,
+          commentDownvotes: votes.list_of_comments_downvotes,
         });
       });
   }, []);
@@ -94,6 +108,7 @@ function Home(HomeProps: HomeInfo) {
         <PostCard
           post={post}
           authToken={authToken}
+          userVotes={userVotes}
           setView={setView}
           setCurrentPost={setCurrentPost}
         />
@@ -112,7 +127,7 @@ function Home(HomeProps: HomeInfo) {
           ) : posts.length === 0 ? (
             <></>
           ) : (
-            <PostView post={currentPost} authToken={authToken} />
+            <PostView post={currentPost} authToken={authToken} userVotes={userVotes} />
           )}
         </div>
       </div>

@@ -4,13 +4,14 @@ import {
   CardDescription,
   CardHeader,
 } from "@/components/ui/card";
-import { HomeView, PostInfo } from "@/types";
-import { useState } from "react";
+import { HomeView, PostInfo, UserVotes } from "@/types";
+import { useEffect, useState } from "react";
 import { PostCardTitle } from "./PostCardTitle";
 import { CustomCardFooter } from "./CustomCardFooter";
 
 function PostCard(PostProp: {
   post: PostInfo;
+  userVotes: UserVotes;
   authToken: string;
   setView: (state: HomeView) => void;
   setCurrentPost: (post: PostInfo) => void;
@@ -19,9 +20,18 @@ function PostCard(PostProp: {
   const authToken = PostProp.authToken;
   const setCurrentPost = PostProp.setCurrentPost;
   const setView = PostProp.setView;
+  const userVotes = PostProp.userVotes;
 
   const [liked, setLiked] = useState(false);
   const [disliked, setDisliked] = useState(false);
+
+  useEffect(() => {
+    if (userVotes.postUpvotes.includes(post.id)) {
+      setLiked(true);
+    } else if (userVotes.postDownvotes.includes(post.id)) {
+      setDisliked(true);
+    }
+  }, [userVotes])
 
   const handlePostClick = (event: React.SyntheticEvent) => {
     event.preventDefault();

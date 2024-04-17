@@ -1,4 +1,4 @@
-import { PostInfo, Comment } from "./types";
+import { PostInfo, Comment, UserVotes } from "./types";
 
 import {
   Card,
@@ -13,9 +13,18 @@ import { useState, useEffect } from "react";
 import { BACKEND_URL } from "./utils/constants";
 import CommentCard from "./custom/CommentCard";
 
-function PostView(PostViewProp: { post: PostInfo; authToken: string }) {
+function PostView(PostViewProp: { post: PostInfo; userVotes: UserVotes, authToken: string }) {
   const post: PostInfo = PostViewProp.post;
   const authToken = PostViewProp.authToken;
+  const userVotes = PostViewProp.userVotes;
+
+  useEffect(() => {
+    if (userVotes.postUpvotes.includes(post.id)) {
+      setLiked(true);
+    } else if (userVotes.postDownvotes.includes(post.id)) {
+      setDisliked(true);
+    }
+  }, [userVotes])
 
   const [liked, setLiked] = useState(false);
   const [disliked, setDisliked] = useState(false);
@@ -49,7 +58,7 @@ function PostView(PostViewProp: { post: PostInfo; authToken: string }) {
         isPost={true}
       />
       {comments.map((comment) => (
-        <CommentCard comment={comment} authToken={authToken} />
+        <CommentCard comment={comment} authToken={authToken} userVotes={userVotes} />
       ))}
     </Card>
   );
