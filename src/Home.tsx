@@ -134,7 +134,11 @@ function Home(HomeProps: HomeInfo) {
           ) : posts.length === 0 ? (
             <></>
           ) : (
-            <PostView post={currentPost} authToken={authToken} userVotes={userVotes} />
+            <PostView
+              post={currentPost}
+              authToken={authToken}
+              userVotes={userVotes}
+            />
           )}
         </div>
       </div>

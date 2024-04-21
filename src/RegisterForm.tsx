@@ -17,27 +17,32 @@ function RegisterForm(registerProps: RegisterFormInfo) {
 
   const [avatarIndex, setAvatarIndex] = useState(0);
   const [username, setUsername] = useState("");
+  const [confirmPass, setConfirmPass] = useState("");
 
   const handleRegister = (event: React.SyntheticEvent) => {
     event.preventDefault();
     // send fetch POST to backend to register user
-    fetch(`${BACKEND_URL}/user/register`, {
-      method: "POST",
-      body: JSON.stringify({
-        email_address: email,
-        password: password,
-        username: username,
-        avatar: avatarIndex,
-      }),
-      headers: { "Content-Type": "application/json" },
-    })
-      .then((res) => (res.status === 200 ? res.json() : Promise.reject()))
-      .then((json) => {
-        setAuthToken(json.token);
-        setLoginState(LoginState.LoggedIn);
-        setFirstTimeUser(true);
+    if (password !== confirmPass) {
+      setRegisterFail(true);
+    } else {
+      fetch(`${BACKEND_URL}/user/register`, {
+        method: "POST",
+        body: JSON.stringify({
+          email_address: email,
+          password: password,
+          username: username,
+          avatar: avatarIndex,
+        }),
+        headers: { "Content-Type": "application/json" },
       })
-      .catch(() => setRegisterFail(true));
+        .then((res) => (res.status === 200 ? res.json() : Promise.reject()))
+        .then((json) => {
+          setAuthToken(json.token);
+          setLoginState(LoginState.LoggedIn);
+          setFirstTimeUser(true);
+        })
+        .catch(() => setRegisterFail(true));
+    }
   };
 
   if (toggleRegister) {
@@ -81,6 +86,17 @@ function RegisterForm(registerProps: RegisterFormInfo) {
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
+          <div className="pb-2 pt-4">
+            <input
+              className="block w-full p-4 text-lg rounded-sm bg-black"
+              type="confirmPass"
+              name="confirmPass"
+              id="confirmPass"
+              placeholder="Re-enter your password"
+              value={confirmPass}
+              onChange={(e) => setConfirmPass(e.target.value)}
             />
           </div>
           <a

@@ -12,6 +12,7 @@ import { CustomCardFooter } from "./custom/CustomCardFooter";
 import { useState, useEffect } from "react";
 import { BACKEND_URL } from "./utils/constants";
 import CommentCard from "./custom/CommentCard";
+import UserCommentBox from "./custom/UserCommentBox";
 
 function PostView(PostViewProp: {
   post: PostInfo;
@@ -22,17 +23,10 @@ function PostView(PostViewProp: {
   const authToken = PostViewProp.authToken;
   const userVotes = PostViewProp.userVotes;
 
-  useEffect(() => {
-    if (userVotes.postUpvotes.includes(post.id)) {
-      setLiked(true);
-    } else if (userVotes.postDownvotes.includes(post.id)) {
-      setDisliked(true);
-    }
-  }, [userVotes]);
-
   const [liked, setLiked] = useState(false);
   const [disliked, setDisliked] = useState(false);
   const [comments, setComments] = useState<Comment[]>([]);
+  const [newComment, setNewComment] = useState("");
 
   useEffect(() => {
     if (userVotes.postUpvotes.includes(post.id)) {
@@ -40,13 +34,13 @@ function PostView(PostViewProp: {
     } else {
       setLiked(false);
     }
-    
+
     if (userVotes.postDownvotes.includes(post.id)) {
       setDisliked(true);
     } else {
       setDisliked(false);
     }
-  }, [userVotes])
+  }, [userVotes]);
 
   useEffect(() => {
     fetch(`${BACKEND_URL}/aggregator/get-comments?post_id=${post.id}`, {
@@ -54,12 +48,12 @@ function PostView(PostViewProp: {
     })
       .then((res) => res.json())
       .then((json) => setComments(() => [...json.comments]));
-  }, []);
+  }, [newComment]);
 
   return (
     <Card className="overflow-y-scroll mt-3 rounded-md bg-[#161616] border-slate-200">
       <CardHeader className="text-white">
-        <PostCardTitle post={post} />
+        <PostCardTitle post={post} liked={liked} disliked={disliked} />
         <CardDescription>Card Description</CardDescription>
       </CardHeader>
       <CardContent className="text-white flex-row">
@@ -77,6 +71,12 @@ function PostView(PostViewProp: {
         setLiked={setLiked}
         setDisliked={setDisliked}
         isPost={true}
+      />
+      <UserCommentBox
+        authToken={authToken}
+        newComment={newComment}
+        setNewComment={setNewComment}
+        postId={post.id}
       />
       {comments.map((comment) => (
         <CommentCard

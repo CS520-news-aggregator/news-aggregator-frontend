@@ -31,6 +31,12 @@ function PostCard(PostProp: {
     } else {
       setLiked(false);
     }
+
+    if (userVotes.postDownvotes.includes(post.id)) {
+      setDisliked(true);
+    } else {
+      setDisliked(false);
+    }
   }, [userVotes]);
 
   const handlePostClick = (event: React.SyntheticEvent) => {
@@ -43,7 +49,7 @@ function PostCard(PostProp: {
     <Card className="m-2 text-white bg-[#161616] hover:cursor-pointer">
       <div onClick={handlePostClick}>
         <CardHeader>
-          <PostCardTitle post={post} />
+          <PostCardTitle post={post} liked={liked} disliked={disliked}/>
           <CardDescription className="gap-4">
             <p>{post.author}</p> <p>{post.link}</p>
           </CardDescription>
