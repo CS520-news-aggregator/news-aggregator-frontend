@@ -18,7 +18,7 @@ export function PostCardTitle(PostCardTitleProp: {
   const [agreementVal, setAgreementVal] = useState(upvotes - downvotes);
 
   useEffect(() => {
-    fetch(`${BACKEND_URL}/annotator/get-aggregation?post_id=${post.id}`, {
+    fetch(`${BACKEND_URL}/annotator/get-post?post_id=${post.id}`, {
       method: "GET",
     })
       .then((res) => res.json())

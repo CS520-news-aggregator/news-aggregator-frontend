@@ -41,7 +41,7 @@ function UserCommentBox(UserCommentBoxProps: {
         <div className="flex justify-between">
           <div></div>
           <Button
-            className="p-3 rounded-md m-[0.4rem] h-[20px] rounded-md"
+            className="p-3 m-[0.4rem] h-[20px] rounded-md"
             variant="outline"
             onClick={handlePostComment}
           >
