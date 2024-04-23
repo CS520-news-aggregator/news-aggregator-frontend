@@ -87,7 +87,7 @@ background-image: linear-gradient(135deg, #8BC6EC 0%, #9599E2 100%);
               className=" bg-white hover:bg-slate-300 text-black w-24 m-5 p-2 text-xl rounded-lg font-anton md:tracking-wide"
               onClick={handleSubmit}
             >
-              Submit
+             Continue 
             </button>
           </div>
         </div>

@@ -24,14 +24,14 @@ export function CustomCardFooter(CardFooterProp: {
     const route = `upvote-${isPost ? "post?post_id" : "comment?comment_id"}`;
     if (liked) {
       setLiked(false);
-      fetch(`${BACKEND_URL}/aggregator/remove-${route}=${id}`, {
+      fetch(`${BACKEND_URL}/annotator/remove-${route}=${id}`, {
         method: "PUT",
         headers: { Authorization: `Bearer ${authToken}` },
       });
     } else {
       setLiked(true);
       setDisliked(false);
-      fetch(`${BACKEND_URL}/aggregator/${route}=${id}`, {
+      fetch(`${BACKEND_URL}/annotator/${route}=${id}`, {
         method: "PUT",
         headers: { Authorization: `Bearer ${authToken}` },
       });
@@ -41,14 +41,14 @@ export function CustomCardFooter(CardFooterProp: {
     const route = `downvote-${isPost ? "post?post_id" : "comment?comment_id"}`;
     if (disliked) {
       setDisliked(false);
-      fetch(`${BACKEND_URL}/aggregator/remove-${route}=${id}`, {
+      fetch(`${BACKEND_URL}/annotator/remove-${route}=${id}`, {
         method: "PUT",
         headers: { Authorization: `Bearer ${authToken}` },
       });
     } else {
       setLiked(false);
       setDisliked(true);
-      fetch(`${BACKEND_URL}/aggregator/${route}=${id}`, {
+      fetch(`${BACKEND_URL}/annotator/${route}=${id}`, {
         method: "PUT",
         headers: { Authorization: `Bearer ${authToken}` },
       });

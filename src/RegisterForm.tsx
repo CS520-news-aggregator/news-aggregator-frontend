@@ -91,7 +91,7 @@ function RegisterForm(registerProps: RegisterFormInfo) {
           <div className="pb-2 pt-4">
             <input
               className="block w-full p-4 text-lg rounded-sm bg-black"
-              type="confirmPass"
+              type="password"
               name="confirmPass"
               id="confirmPass"
               placeholder="Re-enter your password"

@@ -13,6 +13,7 @@ import { useState, useEffect } from "react";
 import { BACKEND_URL } from "./utils/constants";
 import CommentCard from "./custom/CommentCard";
 import UserCommentBox from "./custom/UserCommentBox";
+import SourceCarousel from "./custom/SourceCarousel";
 
 function PostView(PostViewProp: {
   post: PostInfo;
@@ -43,7 +44,7 @@ function PostView(PostViewProp: {
   }, [userVotes]);
 
   useEffect(() => {
-    fetch(`${BACKEND_URL}/aggregator/get-comments?post_id=${post.id}`, {
+    fetch(`${BACKEND_URL}/annotator/get-comments?post_id=${post.id}`, {
       method: "GET",
     })
       .then((res) => res.json())
@@ -62,6 +63,8 @@ function PostView(PostViewProp: {
         </div>
         <p>Card Content</p>
       </CardContent>
+
+      <SourceCarousel />
 
       <CustomCardFooter
         id={post.id}

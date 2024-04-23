@@ -34,12 +34,14 @@ function Home(HomeProps: HomeInfo) {
     })
       .then((res) => res.json())
       .then((json) => {
-        const postIds = json.list_recommendations;
-        Promise.all(postIds.map((postId: string) => getPost(postId))).then(
-          (posts) => {
-            setPosts(posts);
-          }
-        );
+        // const postIds = json.list_recommendations;
+        // Promise.all(postIds.map((postId: string) => getPost(postId))).then(
+        //   (posts) => {
+        //     setPosts(posts);
+        //   }
+        // );
+        
+        setPosts(json["list_recommendations"])
       });
 
     fetch(`${BACKEND_URL}/user/view`, {
@@ -67,16 +69,23 @@ function Home(HomeProps: HomeInfo) {
       });
   }, [view]);
 
-  async function getPost(postId: string) {
-    return fetch(
-      `${BACKEND_URL}/aggregator/get-aggregation?post_id=${postId}`,
-      {
-        method: "GET",
-      }
-    )
-      .then((res) => res.json())
-      .then((json) => json.post);
-  }
+  // async function getPost(postId: string) {
+  //   return fetch(
+  //     `${BACKEND_URL}/recommender/get-recommendations?post_id=${postId}`,
+  //     {
+  //       method: "GET",
+  //       headers: {
+  //         Authorization: `Bearer ${authToken}`
+  //       }
+  //     }
+  //   )
+  //     .then((res) => res.json())
+  //     .then((json) => {
+  //       const post = json.post;
+  //       console.log(post);
+  //       return post;
+  //     });
+  // }
 
   const handleLogoClick = (event: React.SyntheticEvent) => {
     event.preventDefault();

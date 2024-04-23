@@ -15,9 +15,10 @@ export function PostCardTitle(PostCardTitleProp: {
   const disliked = PostCardTitleProp.disliked;
   const [upvotes, setUpvotes] = useState(post.upvotes);
   const [downvotes, setDownvotes] = useState(post.downvotes);
+  const [agreementVal, setAgreementVal] = useState(upvotes - downvotes);
 
   useEffect(() => {
-    fetch(`${BACKEND_URL}/aggregator/get-aggregation?post_id=${post.id}`, {
+    fetch(`${BACKEND_URL}/annotator/get-aggregation?post_id=${post.id}`, {
       method: "GET",
     })
       .then((res) => res.json())
@@ -25,6 +26,7 @@ export function PostCardTitle(PostCardTitleProp: {
       .then((updatedPost) => {
         setUpvotes(updatedPost.upvotes);
         setDownvotes(updatedPost.downvotes);
+        setAgreementVal(upvotes - downvotes);
       });
   }, [liked, disliked]);
 
@@ -33,9 +35,7 @@ export function PostCardTitle(PostCardTitleProp: {
       <h1>{post.title}</h1>
       <div className="flex gap-2">
         {" "}
-        <h3 className="text-lg">
-          {numberFormatter(Math.abs(upvotes - downvotes))}
-        </h3>
+        <h3 className="text-lg">{numberFormatter(Math.abs(agreementVal))}</h3>
         <UpDownVotes
           upvotes={upvotes}
           downvotes={downvotes}

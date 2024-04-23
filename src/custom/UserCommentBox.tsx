@@ -15,11 +15,12 @@ function UserCommentBox(UserCommentBoxProps: {
   const handlePostComment = (event: React.SyntheticEvent) => {
     event.preventDefault();
     // fetch req ur comment here
-    fetch(`${BACKEND_URL}/aggregator/comment`, {
+    fetch(`${BACKEND_URL}/annotator/comment`, {
       method: "POST",
       body: JSON.stringify({ content: newComment, post_id: postId }),
       headers: {
         Authorization: `Bearer ${authToken}`,
+        "Content-Type": "application/json",
       },
     }).then((res) => {
       if (res.status === 200) {
