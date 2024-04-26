@@ -43,14 +43,20 @@ type RegisterFormInfo = {
 type PostInfo = {
   id: string;
   title: string;
-  link: string;
   date: string;
   media: string;
-  author: string;
   upvotes: number;
   downvotes: number;
+  summary: string;
+  source_ids: Array<string>;
 };
-
+type SourceInfo = {
+  id: string;
+  title: string;
+  link: string;
+  author: string;
+  date: string;
+};
 type UserInfo = {
   email: string;
   username: string;
@@ -106,6 +112,7 @@ export type {
   SignInFormInfo,
   PreferencesInfo,
   PostInfo,
+  SourceInfo,
   HomeInfo,
   UserInfo,
   UserVotes,

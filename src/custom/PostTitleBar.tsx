@@ -5,7 +5,7 @@ import UpDownVotes from "./UpDownVotes";
 import { useEffect, useState } from "react";
 import { BACKEND_URL } from "@/utils/constants";
 
-export function PostCardTitle(PostCardTitleProp: {
+export function PostTitleBar(PostCardTitleProp: {
   post: PostInfo;
   liked: boolean;
   disliked: boolean;
@@ -15,7 +15,6 @@ export function PostCardTitle(PostCardTitleProp: {
   const disliked = PostCardTitleProp.disliked;
   const [upvotes, setUpvotes] = useState(post.upvotes);
   const [downvotes, setDownvotes] = useState(post.downvotes);
-  const [agreementVal, setAgreementVal] = useState(upvotes - downvotes);
 
   useEffect(() => {
     fetch(`${BACKEND_URL}/annotator/get-post?post_id=${post.id}`, {
@@ -26,7 +25,6 @@ export function PostCardTitle(PostCardTitleProp: {
       .then((updatedPost) => {
         setUpvotes(updatedPost.upvotes);
         setDownvotes(updatedPost.downvotes);
-        setAgreementVal(upvotes - downvotes);
       });
   }, [liked, disliked]);
 
@@ -35,7 +33,10 @@ export function PostCardTitle(PostCardTitleProp: {
       <h1>{post.title}</h1>
       <div className="flex gap-2">
         {" "}
-        <h3 className="text-lg">{numberFormatter(Math.abs(agreementVal))}</h3>
+        {/* <h3 className="text-lg"> */}
+        <h3 className="ml-2">
+          {numberFormatter(Math.abs(upvotes - downvotes))}
+        </h3>
         <UpDownVotes
           upvotes={upvotes}
           downvotes={downvotes}

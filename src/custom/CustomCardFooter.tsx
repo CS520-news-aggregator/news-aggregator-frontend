@@ -20,37 +20,39 @@ export function CustomCardFooter(CardFooterProp: {
   const isPost = CardFooterProp.isPost;
 
   const handeLike = (id: string, authToken: string, isPost: boolean) => {
-    console.log("here");
     const route = `upvote-${isPost ? "post?post_id" : "comment?comment_id"}`;
     if (liked) {
-      setLiked(false);
+      // setLiked(false);
       fetch(`${BACKEND_URL}/annotator/remove-${route}=${id}`, {
         method: "PUT",
         headers: { Authorization: `Bearer ${authToken}` },
-      });
+      }).then(() => setLiked(false));
     } else {
-      setLiked(true);
-      setDisliked(false);
+      // setLiked(true);
+      // setDisliked(false);
       fetch(`${BACKEND_URL}/annotator/${route}=${id}`, {
         method: "PUT",
         headers: { Authorization: `Bearer ${authToken}` },
+      }).then(() => {
+        setLiked(true);
+        setDisliked(false);
       });
     }
   };
   const handleDislike = (id: string, authToken: string, isPost: boolean) => {
     const route = `downvote-${isPost ? "post?post_id" : "comment?comment_id"}`;
     if (disliked) {
-      setDisliked(false);
       fetch(`${BACKEND_URL}/annotator/remove-${route}=${id}`, {
         method: "PUT",
         headers: { Authorization: `Bearer ${authToken}` },
-      });
+      }).then(() => setDisliked(false));
     } else {
-      setLiked(false);
-      setDisliked(true);
       fetch(`${BACKEND_URL}/annotator/${route}=${id}`, {
         method: "PUT",
         headers: { Authorization: `Bearer ${authToken}` },
+      }).then(() => {
+        setLiked(false);
+        setDisliked(true);
       });
     }
   };

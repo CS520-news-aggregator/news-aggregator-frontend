@@ -8,7 +8,11 @@ import { numberFormatter } from "@/utils/funcs";
 import { CustomCardFooter } from "./CustomCardFooter";
 import UpDownVotes from "./UpDownVotes";
 
-function CommentCard(CommentCardProp: { comment: Comment; authToken: string, userVotes: UserVotes}) {
+function CommentCard(CommentCardProp: {
+  comment: Comment;
+  authToken: string;
+  userVotes: UserVotes;
+}) {
   const comment = CommentCardProp.comment;
   const authToken = CommentCardProp.authToken;
   const userVotes = CommentCardProp.userVotes;
@@ -18,9 +22,12 @@ function CommentCard(CommentCardProp: { comment: Comment; authToken: string, use
 
   const [commentLiked, setCommentLiked] = useState(false);
   const [commentDisliked, setCommentDisliked] = useState(false);
+
+  const [upvotes, setUpvotes] = useState(comment.upvotes);
+  const [downvotes, setDownvotes] = useState(comment.downvotes);
+
   const [gotData, setGotData] = useState(false);
 
-  
   useEffect(() => {
     fetch(`${BACKEND_URL}/user/get-user?user_id=${comment.author_id}`, {
       method: "GET",
@@ -28,22 +35,33 @@ function CommentCard(CommentCardProp: { comment: Comment; authToken: string, use
       .then((res) => res.json())
       .then((json) => json.user)
       .then((user) => {
-        console.log(user);
         setAuthor(user.username);
         setAuthorAvatar(user.avatar);
         if (!gotData) {
           setGotData(true);
         }
       });
-    }, [gotData]);
-    
-    useEffect(() => {
-      if (userVotes.commentUpvotes.includes(comment.id)) {
-        setCommentLiked(true);
-      } else if (userVotes.commentDownvotes.includes(comment.id)) {
-        setCommentDisliked(true);
-      }
-    }, [userVotes])
+  }, [gotData]);
+
+  useEffect(() => {
+    fetch(`${BACKEND_URL}/annotator/get-comment?comment_id=${comment.id}`, {
+      method: "GET",
+    })
+      .then((res) => res.json())
+      .then((json) => json.comment)
+      .then((updatedComment) => {
+        setUpvotes(updatedComment.upvotes);
+        setDownvotes(updatedComment.downvotes);
+      });
+  }, [commentLiked, commentDisliked]);
+
+  useEffect(() => {
+    if (userVotes.commentUpvotes.includes(comment.id)) {
+      setCommentLiked(true);
+    } else if (userVotes.commentDownvotes.includes(comment.id)) {
+      setCommentDisliked(true);
+    }
+  }, [userVotes]);
 
   return (
     <>
@@ -57,13 +75,11 @@ function CommentCard(CommentCardProp: { comment: Comment; authToken: string, use
             <div className="flex gap-2">
               <p className="text-base">
                 {" "}
-                {numberFormatter(
-                  Math.abs(comment.upvotes - comment.downvotes)
-                )}{" "}
+                {numberFormatter(Math.abs(upvotes - downvotes))}{" "}
               </p>
               <UpDownVotes
-                upvotes={comment.upvotes}
-                downvotes={comment.downvotes}
+                upvotes={upvotes}
+                downvotes={downvotes}
                 width={3}
                 height={3}
               />

@@ -29,6 +29,13 @@ function UserCommentBox(UserCommentBoxProps: {
     });
   };
 
+  const handlePressEnter = (event: React.KeyboardEvent) => {
+    if (event.key === "Enter" && event.shiftKey === false) {
+      event.preventDefault();
+      handlePostComment(event);
+    }
+  };
+
   return (
     <>
       <div className="w-1/1 h-[160px]bg-[#161616] focus-within:bg-[#1d1c1c] rounded-md m-3 border border-slate-300">
@@ -37,6 +44,7 @@ function UserCommentBox(UserCommentBoxProps: {
           placeholder="Enter new comment"
           value={newComment}
           onChange={(e) => setNewComment(e.target.value)}
+          onKeyDown={handlePressEnter}
         ></textarea>
         <div className="flex justify-between">
           <div></div>

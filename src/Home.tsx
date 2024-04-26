@@ -11,12 +11,35 @@ function Home(HomeProps: HomeInfo) {
 
   const [posts, setPosts] = useState<PostInfo[]>([]);
   const [view, setView] = useState<HomeView>(HomeView.Content);
-  const [currentPost, setCurrentPost] = useState<PostInfo>();
+  const [currentPost, setCurrentPost] = useState<PostInfo>({});
   const [userProfile, setUserProfile] = useState<UserInfo>({
     username: "Loading",
     email: "Loading",
     avatarIndex: 0,
   });
+
+  // const setViewWrapper = (newView: HomeView) => {setView(newView)};
+
+  const setViewWrapper = (newView: HomeView) => {
+    window.sessionStorage.setItem("HomeView", JSON.stringify(newView));
+    setView(newView);
+  };
+
+  const setCurrentPostWrapper = (newPost: PostInfo) => {
+    window.sessionStorage.setItem("currentPost", JSON.stringify(currentPost));
+    setCurrentPost(newPost);
+  };
+
+  useEffect(() => {
+    const prevView = window.sessionStorage.getItem("HomeView");
+    let prevPost = window.sessionStorage.getItem("currentPost")
+    if (prevPost === undefined) {prevPost = "{}"}
+    // const prevPost = "{}"
+
+    setViewWrapper(parseInt(prevView || "0") || HomeView.Content);
+    setCurrentPostWrapper(JSON.parse(prevPost));
+  }, []);
+
   const [userVotes, setUserVotes] = useState<UserVotes>({
     postUpvotes: [],
     postDownvotes: [],
@@ -34,14 +57,7 @@ function Home(HomeProps: HomeInfo) {
     })
       .then((res) => res.json())
       .then((json) => {
-        // const postIds = json.list_recommendations;
-        // Promise.all(postIds.map((postId: string) => getPost(postId))).then(
-        //   (posts) => {
-        //     setPosts(posts);
-        //   }
-        // );
-        
-        setPosts(json["list_recommendations"])
+        setPosts(json["list_recommendations"]);
       });
 
     fetch(`${BACKEND_URL}/user/view`, {
@@ -69,27 +85,9 @@ function Home(HomeProps: HomeInfo) {
       });
   }, [view]);
 
-  // async function getPost(postId: string) {
-  //   return fetch(
-  //     `${BACKEND_URL}/recommender/get-recommendations?post_id=${postId}`,
-  //     {
-  //       method: "GET",
-  //       headers: {
-  //         Authorization: `Bearer ${authToken}`
-  //       }
-  //     }
-  //   )
-  //     .then((res) => res.json())
-  //     .then((json) => {
-  //       const post = json.post;
-  //       console.log(post);
-  //       return post;
-  //     });
-  // }
-
   const handleLogoClick = (event: React.SyntheticEvent) => {
     event.preventDefault();
-    setView(HomeView.Content);
+    setViewWrapper(HomeView.Content);
   };
 
   const topHeader = (
@@ -125,8 +123,8 @@ function Home(HomeProps: HomeInfo) {
           post={post}
           authToken={authToken}
           userVotes={userVotes}
-          setView={setView}
-          setCurrentPost={setCurrentPost}
+          setView={setViewWrapper}
+          setCurrentPost={setCurrentPostWrapper}
         />
       ))}
     </div>
@@ -136,7 +134,7 @@ function Home(HomeProps: HomeInfo) {
     <>
       <div className="grid grid-rows-home h-screen max-h-screen overflow-y-scroll">
         {topHeader}
-        <div className="bg-gradient-to-b from-[#161616] to-slate-900 grid grid-cols-home rounded-sm">
+        <div className="bg-gradient-to-b from-[#161616] to-slate-900 grid grid-cols-home ">
           <div className=""></div>
           {view == HomeView.Content ? (
             contentView
@@ -147,6 +145,7 @@ function Home(HomeProps: HomeInfo) {
               post={currentPost}
               authToken={authToken}
               userVotes={userVotes}
+              setView={setViewWrapper}
             />
           )}
         </div>

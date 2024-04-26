@@ -6,8 +6,9 @@ import {
 } from "@/components/ui/card";
 import { HomeView, PostInfo, UserVotes } from "@/types";
 import { useEffect, useState } from "react";
-import { PostCardTitle } from "./PostCardTitle";
+import { PostTitleBar } from "./PostTitleBar";
 import { CustomCardFooter } from "./CustomCardFooter";
+import { minimizeSummary } from "@/utils/formatter";
 
 function PostCard(PostProp: {
   post: PostInfo;
@@ -49,16 +50,18 @@ function PostCard(PostProp: {
     <Card className="m-2 text-white bg-[#161616] hover:cursor-pointer">
       <div onClick={handlePostClick}>
         <CardHeader>
-          <PostCardTitle post={post} liked={liked} disliked={disliked}/>
+          <PostTitleBar post={post} liked={liked} disliked={disliked} />
           <CardDescription className="gap-4">
-            <p>{post.author}</p> <p>{post.link}</p>
+            {/* <p>{post.summary}</p> <p>{post.date}</p> */}
           </CardDescription>
         </CardHeader>
         <CardContent className="flex-row ">
           <div className="flex justify-center">
             <img src={post.media} alt="" width={"50%"} />
           </div>
-          <p>Card Content</p>
+          <p className="mt-2 mb-2 text-slate-400 height-[100px] overflow-clip mr-6">
+            {minimizeSummary(post.summary)}
+          </p>
         </CardContent>
       </div>
       <CustomCardFooter

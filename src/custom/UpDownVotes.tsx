@@ -15,7 +15,7 @@ function UpDownVotes(UpDownVotesProp: {
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
-          viewBox="0 0 24 24"
+          viewBox={`0 0 24 24`}
           strokeWidth={3.0}
           stroke="currentColor"
           className={`w-${width} h-${height} mt-2`}
