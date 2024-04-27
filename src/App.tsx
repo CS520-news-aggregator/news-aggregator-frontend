@@ -6,6 +6,7 @@ import Preferences from "./Preferences";
 import Home from "./Home";
 import { BACKEND_URL } from "./utils/constants";
 import { LoginState } from "./types";
+import { Route, createBrowserRouter, createRoutesFromElements, RouterProvider } from 'react-router-dom';
 
 function App() {
   const [loginState, setLoginState] = useState<LoginState>(
@@ -40,6 +41,20 @@ function App() {
         });
     }
   };
+
+  const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route path="/" element={<Header />}>
+      <Route index element={<Home />} />
+      <Route path="login" element={<Login />} />
+      <Route path="register" element={<Register />} />
+    </Route>
+  )
+)
+
+
+
+
   console.log(firstTimeUser);
   if (loginState == LoginState.Loading) {
     return (
