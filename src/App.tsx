@@ -42,15 +42,15 @@ function App() {
     }
   };
 
-  const router = createBrowserRouter(
-  createRoutesFromElements(
-    <Route path="/" element={<Header />}>
-      <Route index element={<Home />} />
-      <Route path="login" element={<Login />} />
-      <Route path="register" element={<Register />} />
-    </Route>
-  )
-)
+//   const router = createBrowserRouter(
+//   createRoutesFromElements(
+//     <Route path="/" element={<Header />}>
+//       <Route index element={<Home />} />
+//       <Route path="login" element={<Login />} />
+//       <Route path="register" element={<Register />} />
+//     </Route>
+//   )
+// )
 
 
 
