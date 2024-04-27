@@ -11,7 +11,7 @@ function Home(HomeProps: HomeInfo) {
 
   const [posts, setPosts] = useState<PostInfo[]>([]);
   const [view, setView] = useState<HomeView>(HomeView.Content);
-  const [currentPost, setCurrentPost] = useState<PostInfo>({});
+  const [currentPost, setCurrentPost] = useState<PostInfo>();
   const [userProfile, setUserProfile] = useState<UserInfo>({
     username: "Loading",
     email: "Loading",
@@ -26,7 +26,7 @@ function Home(HomeProps: HomeInfo) {
   };
 
   const setCurrentPostWrapper = (newPost: PostInfo) => {
-    window.sessionStorage.setItem("currentPost", JSON.stringify(currentPost));
+    window.sessionStorage.setItem("currentPost", JSON.stringify(newPost));
     setCurrentPost(newPost);
   };
 
