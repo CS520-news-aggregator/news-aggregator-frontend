@@ -77,7 +77,7 @@ function PostView(PostViewProp: {
         <PostTitleBar post={post} liked={liked} disliked={disliked} />
         </div>
         </div>
-        <CardDescription>{dateFormatter(post.date)}</CardDescription>
+        {/* <CardDescription>{dateFormatter(post.date)}</CardDescription> */}
       </CardHeader>
       <CardContent className="text-white flex-row">
         <div className="flex justify-center m-2">
