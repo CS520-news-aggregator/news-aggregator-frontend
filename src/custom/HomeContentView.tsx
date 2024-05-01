@@ -3,14 +3,14 @@ import PostCard from "./PostCard";
 import {
   Pagination,
   PaginationContent,
-  PaginationEllipsis,
+  // PaginationEllipsis,
   PaginationItem,
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
 
-function ContentView(ContentViewProps: {
+function HomeContentView(ContentViewProps: {
   posts: Array<PostInfo>;
   authToken: string;
   userVotes: UserVotes;
@@ -91,4 +91,4 @@ function ContentView(ContentViewProps: {
   );
 }
 
-export default ContentView;
+export default HomeContentView;
