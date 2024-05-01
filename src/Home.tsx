@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { HomeInfo, PostInfo, HomeView, UserInfo, UserVotes } from "./types";
 import { BACKEND_URL } from "./utils/constants";
-import PostCard from "./custom/PostCard";
 import { HomeProfile } from "./custom/HomeProfile";
 import PostView from "./PostView";
+import ContentView from "./custom/ContentView";
 
 function Home(HomeProps: HomeInfo) {
   const authToken = HomeProps.authToken;
@@ -11,6 +11,7 @@ function Home(HomeProps: HomeInfo) {
 
   const [posts, setPosts] = useState<PostInfo[]>([]);
   const [view, setView] = useState<HomeView>(HomeView.Content);
+  const [page, setPage] = useState(1);
   const [currentPost, setCurrentPost] = useState<PostInfo>();
   const [userProfile, setUserProfile] = useState<UserInfo>({
     username: "Loading",
@@ -18,6 +19,12 @@ function Home(HomeProps: HomeInfo) {
     avatarIndex: 0,
   });
 
+  const [userVotes, setUserVotes] = useState<UserVotes>({
+    postUpvotes: [],
+    postDownvotes: [],
+    commentUpvotes: [],
+    commentDownvotes: [],
+  });
   // const setViewWrapper = (newView: HomeView) => {setView(newView)};
 
   const setViewWrapper = (newView: HomeView) => {
@@ -32,24 +39,20 @@ function Home(HomeProps: HomeInfo) {
 
   useEffect(() => {
     const prevView = window.sessionStorage.getItem("HomeView");
-    let prevPost = window.sessionStorage.getItem("currentPost")
-    if (prevPost === undefined) {prevPost = "{}"}
+    let prevPost = window.sessionStorage.getItem("currentPost");
+    if (prevPost === undefined) {
+      prevPost = "{}";
+    }
     // const prevPost = "{}"
 
     setViewWrapper(parseInt(prevView || "0") || HomeView.Content);
     setCurrentPostWrapper(JSON.parse(prevPost));
   }, []);
 
-  const [userVotes, setUserVotes] = useState<UserVotes>({
-    postUpvotes: [],
-    postDownvotes: [],
-    commentUpvotes: [],
-    commentDownvotes: [],
-  });
-
   useEffect(() => {
     // fetch home data inside here
-    fetch(`${BACKEND_URL}/recommender/get-recommendations`, {
+    setPosts([]);
+    fetch(`${BACKEND_URL}/recommender/get-recommendations?page=${page}`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${authToken}`,
@@ -59,7 +62,9 @@ function Home(HomeProps: HomeInfo) {
       .then((json) => {
         setPosts(json["list_recommendations"]);
       });
+  }, [page]);
 
+  useEffect(() => {
     fetch(`${BACKEND_URL}/user/view`, {
       method: "GET",
       headers: {
@@ -116,20 +121,6 @@ function Home(HomeProps: HomeInfo) {
     </div>
   );
 
-  const contentView = (
-    <div className="flex-row ">
-      {posts.map((post) => (
-        <PostCard
-          post={post}
-          authToken={authToken}
-          userVotes={userVotes}
-          setView={setViewWrapper}
-          setCurrentPost={setCurrentPostWrapper}
-        />
-      ))}
-    </div>
-  );
-
   return (
     <>
       <div className="grid grid-rows-home h-screen max-h-screen overflow-y-scroll">
@@ -137,7 +128,15 @@ function Home(HomeProps: HomeInfo) {
         <div className="bg-gradient-to-b from-[#161616] to-slate-900 grid grid-cols-home ">
           <div className=""></div>
           {view == HomeView.Content ? (
-            contentView
+            <ContentView
+              posts={posts}
+              authToken={authToken}
+              userVotes={userVotes}
+              setView={setViewWrapper}
+              setCurrentPost={setCurrentPostWrapper}
+              page={page}
+              setPage={setPage}
+            />
           ) : posts.length === 0 ? (
             <></>
           ) : (

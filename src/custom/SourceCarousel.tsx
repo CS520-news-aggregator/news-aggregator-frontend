@@ -14,7 +14,6 @@ import { dateFormatter, linkFormatter, nameFormatter } from "@/utils/formatter";
 
 function SourceCarousel(SourceCarouselProps: { sourceIds: Array<string> }) {
   const sourceIds = SourceCarouselProps.sourceIds;
-  // const [sources, setSources] = useState <Array<SourceInfo>>(Array.from(Array(sourceIds.length)));
 
   const SourceContainer = (orgSrc: SourceInfo) => {
     const [source, setSource] = useState(orgSrc);
