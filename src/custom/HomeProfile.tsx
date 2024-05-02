@@ -22,7 +22,6 @@ export function HomeProfile(HomeProfileProp: HomeProfileInfo) {
 
   const [avatarIndex, setAvatarIndex] = useState(userProfile.avatarIndex);
   const [username, setUsername] = useState(userProfile.username);
-  // const inputRef = useRef();
 
   const handleLogOut = (event: React.SyntheticEvent) => {
     event.preventDefault();
@@ -50,13 +49,7 @@ export function HomeProfile(HomeProfileProp: HomeProfileInfo) {
 
   const handleUsernameChange = (event: React.KeyboardEvent) => {
     if (event.key === "Enter" && event.shiftKey === false) {
-      // event.preventDefault();
-      setUserProfile({
-        email: userProfile.email,
-        username: username,
-        avatarIndex: userProfile.avatarIndex,
-      });
-      // if (inputRef.current) inputRef.current.focu();
+      event.preventDefault();
       fetch(`${BACKEND_URL}/user/update-user`, {
         method: "PUT",
         headers: {
@@ -64,7 +57,15 @@ export function HomeProfile(HomeProfileProp: HomeProfileInfo) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ username: username }),
-      });
+      }).then((res) =>
+        res.status === 200
+          ? setUserProfile({
+              email: userProfile.email,
+              username: username,
+              avatarIndex: userProfile.avatarIndex,
+            })
+          : setUsername(userProfile.username)
+      );
     }
   };
 
@@ -94,7 +95,13 @@ export function HomeProfile(HomeProfileProp: HomeProfileInfo) {
               <h1 className="text-xl pt-2">Email Address</h1>
               <p className="text-md text-slate-400">{userProfile.email}</p>
             </div>
-            <ChangeDialog changeName="email" subText={userProfile.email} authToken={authToken}/>
+            <ChangeDialog
+              changeName="email"
+              subText={userProfile.email}
+              authToken={authToken}
+              userProfile={userProfile}
+              setUserProfile={setUserProfile}
+            />
           </div>
           <div className="flex justify-between m-2 mt-10">
             <div className="flex-row">
@@ -103,7 +110,13 @@ export function HomeProfile(HomeProfileProp: HomeProfileInfo) {
                 Must be 5 characters long
               </p>
             </div>
-           <ChangeDialog changeName="password" subText={"Password must be 5 characters long"} authToken={authToken}/>
+            <ChangeDialog
+              changeName="password"
+              subText={"Password must be 5 characters long"}
+              authToken={authToken}
+              userProfile={userProfile}
+              setUserProfile={setUserProfile}
+            />
           </div>
         </SheetDescription>
         <button

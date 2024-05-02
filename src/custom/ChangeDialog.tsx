@@ -9,7 +9,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { UserInfo } from "@/types";
 import { BACKEND_URL } from "@/utils/constants";
 import { useState } from "react";
 
@@ -17,64 +17,80 @@ function ChangeDialog(ChangeDialogProps: {
   changeName: string;
   subText: string;
   authToken: string;
+  userProfile: UserInfo;
+  setUserProfile: (profile: UserInfo) => void;
 }) {
   const changeName = ChangeDialogProps.changeName;
   const subText = ChangeDialogProps.subText;
   const authToken = ChangeDialogProps.authToken;
+  const userProfile = ChangeDialogProps.userProfile;
+  const setUserProfile = ChangeDialogProps.setUserProfile;
 
   const [changeEmail, setChangeEmail] = useState("");
   const [changePassword, setChangePassword] = useState("");
+  const [showSelection, setShowSelection] = useState(false);
 
-  const currRequest = changeEmail === "email" ? "email_address" : "password";
-  const currFeature = changeEmail === "email" ? changeEmail : changePassword;
+  const currRequest = changeName === "email" ? "email_address" : "password";
+  const currFeature = changeName === "email" ? changeEmail : changePassword;
 
   const handleSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
     fetch(`${BACKEND_URL}/user/update-user`, {
-      method: "PUT",
-      headers: {
-        Authorization: `Bearer ${authToken}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ [currRequest]: currFeature }),
-    });
+        method: "PUT",
+        headers: {
+            Authorization: `Bearer ${authToken}`,
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ [currRequest]: currFeature }),
+    }).then(res => {
+        if (res.status === 200) { 
+            setShowSelection(false)
+            setUserProfile({
+                username: userProfile.username,
+                email: changeName == "email"? currFeature: userProfile.email,
+                avatarIndex: userProfile.avatarIndex,
+            })
+
+        }
+    }).catch()
   };
 
   return (
-    <Dialog>
-      <DialogTrigger asChild>
+    <Dialog open={showSelection} onOpenChange={setShowSelection}>
+      <DialogTrigger>
         <Button
           variant="outline"
-          className="border-2 border-white rounded-2xl font-semibold pl-3 pr-3 hover:bg-[#222222]"
+          className="bg-[#161616] border-2 mt-3 border-white rounded-2xl font-semibold pl-3 pr-3 hover:bg-[#222222] hover:text-white"
         >
           Change
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px] z-50">
+      <DialogContent className="sm:max-w-[425px] bg-[#161616] text-white">
         <DialogHeader>
           <DialogTitle>Edit {changeName}</DialogTitle>
-          <DialogDescription>{subText}</DialogDescription>
+          <DialogDescription className="text-slate-200">
+            {subText}
+          </DialogDescription>
         </DialogHeader>
-        <div className="grid gap-4 py-4">
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="name" className="text-right">
-              {changeName}
-            </Label>
-            <Input
-              id="name"
-              type={changeName === "Password" ? "Password" : "Email"}
-              value={changeName === "Email" ? changeEmail : changePassword}
-              className="col-span-3"
-              onChange={(e) =>
-                changeEmail === "Email"
-                  ? setChangeEmail(e.target.value)
-                  : setChangePassword(e.target.value)
-              }
-            />
-          </div>
+        <div>
+          <Input
+            id="name"
+            type={changeName}
+            value={currFeature}
+            className="col-span-3 text-black z-50"
+            onChange={(e) =>
+              changeName === "email"
+                ? setChangeEmail(e.target.value)
+                : setChangePassword(e.target.value)
+            }
+          />
         </div>
         <DialogFooter>
-          <Button type="submit" onClick={handleSubmit}>
+          <Button
+            type="submit"
+            onClick={handleSubmit}
+            className="bg-white text-black hover:bg-slate-200 mt-2"
+          >
             Save
           </Button>
         </DialogFooter>
