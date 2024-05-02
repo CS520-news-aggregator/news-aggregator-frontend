@@ -4,21 +4,25 @@ import { HomeProfile } from "./HomeProfile";
 function HomeTopHeader(HomeTopHeaderProps: {
   handleLogoClick: (event: React.SyntheticEvent) => void;
   userProfile: UserInfo;
+  setUserProfile: (user: UserInfo) => void;
   setLoginState: (state: LoginState) => void;
   setSearched: (state: boolean) => void;
   setSearchTerm: (term: string) => void;
   setPage: (page: number) => void;
   currTerm: string;
   setCurrTerm: (term: string) => void;
+  authToken: string;
 }) {
   const handleLogoClick = HomeTopHeaderProps.handleLogoClick;
   const userProfile = HomeTopHeaderProps.userProfile;
+  const setUserProfile = HomeTopHeaderProps.setUserProfile;
   const setLoginState = HomeTopHeaderProps.setLoginState;
   const setSearched = HomeTopHeaderProps.setSearched;
   const setSearchTerm = HomeTopHeaderProps.setSearchTerm;
   const setPage = HomeTopHeaderProps.setPage;
   const currTerm = HomeTopHeaderProps.currTerm;
   const setCurrTerm = HomeTopHeaderProps.setCurrTerm;
+  const authToken = HomeTopHeaderProps.authToken;
 
   const handleSearch = (event: React.SyntheticEvent) => {
     event.preventDefault();
@@ -60,9 +64,10 @@ function HomeTopHeader(HomeTopHeaderProps: {
         </div>
         <HomeProfile
           side="right"
-          avatarIndex={userProfile.avatarIndex}
           userProfile={userProfile}
+          setUserProfile={setUserProfile}
           setLoginState={setLoginState}
+          authToken={authToken}
         />
       </div>
     </>

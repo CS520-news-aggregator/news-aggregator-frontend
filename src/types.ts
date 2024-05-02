@@ -101,8 +101,9 @@ type MessageProp = {
 
 type HomeProfileInfo = {
   side: "top" | "bottom" | "left" | "right" | null | undefined;
-  avatarIndex: number;
   userProfile: UserInfo;
+  authToken: string;
+  setUserProfile: (user: UserInfo) => void;
   setLoginState: (state: LoginState) => void;
 };
 

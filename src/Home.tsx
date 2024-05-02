@@ -111,12 +111,14 @@ function Home(HomeProps: HomeInfo) {
         <HomeTopHeader
           handleLogoClick={handleLogoClick}
           userProfile={userProfile}
+          setUserProfile={setUserProfile}
           setLoginState={setLoginState}
           setSearched={setSearched}
           setSearchTerm={setSearchTerm}
           setPage={setPage}
           currTerm={currTerm}
           setCurrTerm={setCurrTerm}
+          authToken={authToken}
         />
         <div className="bg-gradient-to-b from-[#161616] to-slate-900 grid grid-cols-home ">
           <div className=""></div>
